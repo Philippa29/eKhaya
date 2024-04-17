@@ -1,4 +1,7 @@
 # eKhaya
+
+![Screenshot 2024-04-15 201312](https://github.com/Philippa29/eKhaya/assets/68788485/ac02ea6b-8a7a-4458-995e-b43f1a138513)
+
 # Functional Requirements:
 
 1. User Authentication and Authorization:
