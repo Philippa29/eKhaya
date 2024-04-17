@@ -1,0 +1,26 @@
+name: Check for Console Logs
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-logs:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Run script to check for console logs
+        run: |
+          # Add your script here to check for console logs
+          # Example using grep:
+          if grep -rn "console\.log" .; then
+            echo "Console logs found, blocking merge!"
+            exit 1
+          else
+            echo "No console logs found, merge allowed."
+            exit 0
+          fi
