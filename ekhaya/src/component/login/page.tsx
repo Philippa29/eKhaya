@@ -7,7 +7,7 @@ import {
   PhoneOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import logo from "../../../public/logo-no-background.png";
+import logo from "../../../public/logo.png"
 import Image from "next/image";
 import { useState } from "react";
 import Register from "../register/page";
@@ -39,7 +39,7 @@ const Login = () => {
 
     try{
       await login(credentials);
-      
+
     }
     catch (error) {
       console.error("Error logging in", error);
