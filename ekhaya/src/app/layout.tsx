@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/provider/auth";
 import dynamic from "next/dynamic";
 
 export const metadata = {
@@ -12,6 +13,9 @@ const DynamicRootLayout = dynamic(() => import("./layout"), { ssr: false });
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   //const AuthenticatedComponent = RequireAuth(DynamicRootLayout);
   return (
+    <AuthProvider>
+
+   
     <html lang="en">
       <head>
         <meta charSet="UTF-8" />
@@ -22,6 +26,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       </head>
       <body style={{ margin: 0 }}>{children}</body>
     </html>
+     </AuthProvider>
   );
 };
 

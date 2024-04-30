@@ -1,23 +1,9 @@
 import { Form, Input, Button } from "antd";
-import {
-  IdcardOutlined,
-  LockOutlined,
-  PhoneFilled,
-  PhoneOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
 import { useState } from "react";
 import { message } from "antd";
 import { Modal } from "antd";
-
-interface RegisterCredentials {
-  name: string;
-  surname: string;
-  emailAddress: string;
-  phoneNumber: string;
-  password: string;
-  confirmPassword: string;
-}
+import { useRegisterAction , useRegisterState} from "@/provider/register";
+import { RegisterState } from "@/provider/register/interface";
 
 interface RegisterProps {
   onClose?: () => void;
@@ -26,33 +12,36 @@ interface RegisterProps {
 
 const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
   const [form] = Form.useForm();
-  const [registerCredentials, setRegisterCredentials] =
-    useState<RegisterCredentials>({
-      name: "",
-      surname: "",
-      emailAddress: "",
-      phoneNumber: "",
-      password: "",
-      confirmPassword: "", // Added confirmPassword field
-    });
+  const { registeruser } = useRegisterAction();
+  //const { register } = useRegisterState();
+  const [registerState, setRegisterState] = useState<RegisterState>({
+    
+    applicantId: "",
+    name: "",
+    surname: "",
+    emailAddress: "",
+    phoneNumber: "",
+    password: "",
+    roleNames: [],
+  });
 
-  const [isRegisterButtonDisabled, setIsRegisterButtonDisabled] =
-    useState(true);
-
-  const handleFieldsChange = () => {
-    form.validateFields().then((values) => {
-      const isAllFieldsValid = Object.values(values).every(
-        (field) => field !== undefined,
-      );
-      setIsRegisterButtonDisabled(!isAllFieldsValid);
-    });
-  };
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const onFinish = async () => {
-    if (registerCredentials.password !== registerCredentials.confirmPassword) {
+    console.log("credentials: ", registerState);
+    if (registerState.password !== confirmPassword) {
       message.error("Passwords do not match");
       return;
     }
+    try {
+      await registeruser(registerState);
+      //message.success("Register successful");
+    }
+    catch (error) {
+      console.error("Error creating Applicant", error);
+      throw error;
+    }
+    
   };
 
   return (
@@ -69,7 +58,6 @@ const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
         <Form
           form={form}
           onFinish={onFinish}
-          onFieldsChange={handleFieldsChange}
           initialValues={{ remember: true }}
         >
           <Form.Item
@@ -77,11 +65,10 @@ const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
             rules={[{ required: true, message: "Please input your name!" }]}
           >
             <Input
-              prefix={<UserOutlined />}
               placeholder="Name"
               onChange={(e) =>
-                setRegisterCredentials({
-                  ...registerCredentials,
+                setRegisterState({
+                  ...registerState,
                   name: e.target.value,
                 })
               }
@@ -92,16 +79,40 @@ const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
             rules={[{ required: true, message: "Please input your surname!" }]}
           >
             <Input
-              prefix={<UserOutlined />}
               placeholder="Surname"
               onChange={(e) =>
-                setRegisterCredentials({
-                  ...registerCredentials,
+                setRegisterState({
+                  ...registerState,
                   surname: e.target.value,
                 })
               }
             />
           </Form.Item>
+          <Form.Item
+           name="applicantId"
+          rules={[
+              { required: true, message: "Please input your ID Number!" },
+              {
+                len: 13,
+                message: "ID Number must be exactly 13 digits long!",
+              },
+              {
+                pattern: /^[0-9]+$/,
+                message: "ID Number must only contain digits!",
+              },
+            ]}
+          >
+            <Input
+              placeholder="ID Number"
+              onChange={(e) =>
+                setRegisterState({
+                  ...registerState,
+                  applicantId: e.target.value,
+                })
+              }
+            />
+          </Form.Item>
+
 
           <Form.Item
             name="phoneNumber"
@@ -110,11 +121,10 @@ const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
             ]}
           >
             <Input
-              prefix={<PhoneOutlined />}
               placeholder="Phone Number"
               onChange={(e) =>
-                setRegisterCredentials({
-                  ...registerCredentials,
+                setRegisterState({
+                  ...registerState,
                   phoneNumber: e.target.value,
                 })
               }
@@ -128,11 +138,10 @@ const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
             ]}
           >
             <Input
-              prefix={<UserOutlined />}
               placeholder="Email"
               onChange={(e) =>
-                setRegisterCredentials({
-                  ...registerCredentials,
+                setRegisterState({
+                  ...registerState,
                   emailAddress: e.target.value,
                 })
               }
@@ -149,17 +158,15 @@ const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
             ]}
           >
             <Input.Password
-              prefix={<LockOutlined />}
               placeholder="Password"
               onChange={(e) =>
-                setRegisterCredentials({
-                  ...registerCredentials,
+                setRegisterState({
+                  ...registerState,
                   password: e.target.value,
                 })
               }
             />
           </Form.Item>
-          {/* Add confirmPassword field */}
           <Form.Item
             name="confirmPassword"
             rules={[
@@ -177,14 +184,8 @@ const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
             ]}
           >
             <Input.Password
-              prefix={<LockOutlined />}
               placeholder="Confirm Password"
-              onChange={(e) =>
-                setRegisterCredentials({
-                  ...registerCredentials,
-                  confirmPassword: e.target.value,
-                })
-              }
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </Form.Item>
         </Form>

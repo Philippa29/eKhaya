@@ -11,11 +11,19 @@ import logo from "../../../public/logo-no-background.png";
 import Image from "next/image";
 import { useState } from "react";
 import Register from "../register/page";
-
+import { RegisterProvider } from "@/provider/register";
+import { useAuthAction, useAuthState } from "@/provider/auth";
 const Login = () => {
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [credentials, setCredentials] = useState({
+    userNameOrEmailAddress: "",
+    password: "",
+  });
 
+
+
+  const { login } = useAuthAction();
   const { styles } = loginStyles();
 
   const handleOpenRegistrationModal = () => {
@@ -27,27 +35,17 @@ const Login = () => {
   };
 
   const onFinish = async () => {
-    //console.log('credentials: ', credentials);
-    // try {
-    //   await login(credentials);
-    //   console.log("trying...")
-    //   authToken = localStorage.getItem('authToken');
-    //   console.log('authToken', authToken);
-    //   if (authToken) {
-    //     message.success('Login successful');
-    //     const firstLetter = credentials.userNameOrEmailAddress.trim().charAt(0).toLowerCase();
-    //     // Redirect based on the first letter
-    //     if (firstLetter === 's') {
-    //       router.push('/dashboard'); // Redirect to dashboard if the first letter is 's'
-    //     } else if (firstLetter === 'u') {
-    //       router.push('/landingpage'); // Redirect to landingpage if the first letter is 'u'
-    //     }
-    //   } else {
-    //     message.error('Wrong password or username');
-    //   }
-    // } catch (error) {
-    //   message.error('An error occurred while logging in');
-    // }
+    console.log("credentials: ", credentials);
+
+    try{
+      await login(credentials);
+      
+    }
+    catch (error) {
+      console.error("Error logging in", error);
+      throw error;
+    }
+
   };
 
   return (
@@ -79,7 +77,7 @@ const Login = () => {
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Username"
-              //   onChange={(e) => setCredentials({ ...credentials, userNameOrEmailAddress: e.target.value })}
+              onChange={(e) => setCredentials({ ...credentials, userNameOrEmailAddress: e.target.value })}
             />
           </Form.Item>
           <Form.Item
@@ -95,7 +93,7 @@ const Login = () => {
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
-              //   onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
             />
           </Form.Item>
           <Form.Item>
@@ -108,7 +106,7 @@ const Login = () => {
             </Button>
           </Form.Item>
         </Form>
-        
+
         <span
           style={{ cursor: "pointer", color: "blue" }}
           onClick={handleOpenRegistrationModal}
@@ -116,10 +114,12 @@ const Login = () => {
           Dont have an account? Register
         </span>
 
-        <Register
-          onClose={handleCloseRegistrationModal}
-          open={isModalVisible}
-        />
+        <RegisterProvider>
+          <Register
+            onClose={handleCloseRegistrationModal}
+            open={isModalVisible}
+          />
+        </RegisterProvider>
       </div>
     </div>
   );
