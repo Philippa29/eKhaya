@@ -7,5 +7,5 @@ export enum ActionTypes {
     
   }
 
-export const login = createAction<AuthState>(ActionTypes.LOGIN);
+export const login = createAction<AuthState, AuthState>(ActionTypes.LOGIN, p=>p);
 export const logout = createAction<AuthState>(ActionTypes.LOGOUT);

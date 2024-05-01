@@ -7,7 +7,7 @@ import {
   PhoneOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import logo from "../../../public/logo.png"
+import logo from "../../../public/logo2.png"
 import Image from "next/image";
 import { useState } from "react";
 import Register from "../register/page";
