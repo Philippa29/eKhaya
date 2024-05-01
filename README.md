@@ -29,9 +29,7 @@ Property managers should be able to assign, track, and prioritize maintenance ta
 Property managers should be able to manage tenant information, including contact details, lease terms, and rental payments.
 Tenants should be able to view lease agreements, payment history, and submit inquiries or complaints.
 
-6. Financial Management:
 
-The system should support online rent payments and provide automated rent reminders.
 
 # Non-Functional Requirements:
 
