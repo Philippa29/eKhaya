@@ -37,6 +37,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
            
             let role : string = decodedToken[roleKey];
             role = role.toLowerCase();
+            localStorage.setItem('role', role);
             
             //the roles are : Applicants , Agents , PropertyManagers , Residents
             push(`/${role}`);
