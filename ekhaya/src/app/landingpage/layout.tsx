@@ -10,9 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <AntLayout>
             <TopNavBar />
             <AntLayout>
-                {/* <Header className={cx(styles.header)}>
-                    
-                </Header> */}
+                
                 <Content>
                     {children}
                 </Content>

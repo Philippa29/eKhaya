@@ -30,7 +30,7 @@ const LandingPage: React.FC = () => {
     }
     console.log("response in front", viewproperty);
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ minHeight: '100vh' , backgroundColor : '#e4e2e6;'}}>
             <Content style={{ padding: '50px', textAlign: 'center' }}>
                 {viewproperty.map((property: any, index: number) => (
                     <Card key={index} className={styles.card}>
