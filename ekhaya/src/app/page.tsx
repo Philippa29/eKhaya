@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import Login from "@/component/login/page";
+import LandingPage from "./landingpage/page";
 
 const App: React.FC = () => {
-  return <Login></Login>;
+  return <LandingPage></LandingPage>;
 };
 
 export default App;
