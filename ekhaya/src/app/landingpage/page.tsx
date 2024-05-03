@@ -1,37 +1,51 @@
 'use client'
 import React, { useEffect } from 'react';
-import { Card, Layout, Image, Spin, Space } from 'antd';
+import { Card, Layout, Image, Spin, Space, Button } from 'antd';
+import { useRouter } from 'next/navigation'; // Import useRouter from next/router
 import { landingPageStyle } from './style';
 import { useViewPropertyState } from '@/provider/property';
 import { useViewPropertyAction } from '@/provider/property';
-import { SmileOutlined, HeartOutlined , BellOutlined} from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
+import { useViewUnitsAction, useViewUnitsState } from '@/provider/viewunits';
+
+
 const { Content } = Layout;
 
 const LandingPage: React.FC = () => {
+    const router = useRouter(); // Initialize useRouter hook
     const { styles } = landingPageStyle();
     const { viewproperty, viewproperty_loading } = useViewPropertyState();
     const { getAllProperties } = useViewPropertyAction();
+    
+    const {getAllUnitsPerProperty } = useViewUnitsAction(); 
+
+     
     useEffect(() => {
+        
         const response = getAllProperties();
         console.log("response in front", viewproperty.length);
     }, []);
 
     const amenityIcons: { [key: string]: JSX.Element } = {
         Gym: <FontAwesomeIcon icon={faDumbbell} />,
-        SwimmingPool: <HeartOutlined />,
-        // Add more amenities and their corresponding icons here
+        
     };
 
-
+    
+    const handleUnitsButtonClick = (propertyId: string) => {
+        console.log("propertyId", propertyId)
+        getAllUnitsPerProperty(propertyId);
+        router.push(`/landingpage/units`);
+    };
+    
     if (viewproperty_loading) {
         return <Spin size="large" />;
     }
     console.log("response in front", viewproperty);
     return (
-        <Layout style={{ minHeight: '100vh' , backgroundColor : '#e4e2e6;'}}>
-            <Content style={{ padding: '50px', textAlign: 'center' }}>
+        <Layout style={{ minHeight: '80vh', backgroundColor: '#e4e2e6;' }}>
+            <Content style={{ padding: '60px', textAlign: 'center' }}>
                 {viewproperty.map((property: any, index: number) => (
                     <Card key={index} className={styles.card}>
                         <div className={styles.cardContent}>
@@ -42,15 +56,19 @@ const LandingPage: React.FC = () => {
                                 <h2>{property.propertyName}</h2>
                                 <p>{property.description}</p>
                                 <ul>
-                                {property.amenities.map((amenity: string, amenityIndex: number) => (
-                                <li key={amenityIndex}>
-                                    <Space>
-                                    {amenityIcons[amenity]}
-                                    {amenity}
-                                    </Space>
-                                </li>
-                                ))}
+                                    {property.amenities.map((amenity: string, amenityIndex: number) => (
+                                        <li key={amenityIndex}>
+                                            <Space>
+                                                {amenityIcons[amenity]}
+                                                {amenity}
+                                            </Space>
+                                        </li>
+                                    ))}
                                 </ul>
+                                {/* Attach the handleUnitsButtonClick function to the onClick event of the button */}
+                                <Button 
+                                    style={{ backgroundColor: '#2596be', color: '#fff' }}
+                                    onClick={() => handleUnitsButtonClick(property.propertyId)}>Units</Button>
                             </div>
                         </div>
                     </Card>

@@ -20,7 +20,8 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
         try {
             dispatch(getAllPropertiesLoadingAction());
-            const response = await axios.get(`https://localhost:44311/api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            console.log(process.env.NEXT_PUBLIC_REG_URL); 
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
             console.log('response in provider ', response); 
             dispatch(getAllPropertiesAction(response.data.result));
         }
