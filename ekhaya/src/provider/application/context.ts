@@ -6,13 +6,13 @@ import {Application, ApplicationAction } from './interface';
 
 
 export interface IApplicationContext {
-    application?: Application;
+    application: Application | null ;
     applications?: Application[];
 
 }
 
 export const initialState : IApplicationContext = {
-    application: undefined,
+    application: null, 
     applications: [],
 
 }
@@ -21,7 +21,7 @@ export const ApplicationStateContext = createContext<IApplicationContext>(initia
 export const ApplicationActionContext = createContext<ApplicationAction>({
     getAllApplications: () => {},
     getApplication: (id: string) => {},
-    createApplication: (application: Application) => {},
+    createApplication: (application: Application) => {} ,
     updateApplication: (application: Application) => {},
     deleteApplication: (id: string) => {},
     getApplicationCount: () => {}

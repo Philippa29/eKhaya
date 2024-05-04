@@ -15,4 +15,7 @@ export const applicationStyles = createStyles(({ css }) => ({
     justify-content: center;
     margin-bottom: 16px;
   `,
+  heading : css `
+  text-align : center; 
+  `
 }));

@@ -35,7 +35,7 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
             console.log(localStorage.getItem('authToken')); 
             console.log("application in provider before call: " , application); 
             
-            // Make the HTTP POST request to create the application
+            //Make the HTTP POST request to create the application
             const response = await axios.post(
                 `https://localhost:44311/api/services/app/Applications/CreateApplication`,
                 application,
@@ -50,10 +50,11 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
                 }
             );
 
-            console.log(response); 
-    
+             console.log(response.data.result); 
+            dispatch(createApplicationAction (response.data.result)); 
             message.success('Application created successfully');
             // Handle the response as needed
+            return response.data.result; 
         } catch (error) {
             message.error('An error occurred. Please try again later.');
             // Handle errors here
@@ -61,13 +62,14 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
     };
     
 
-    const updateApplication = async (application: Application) => {
+    const updateApplication = async (application: Application ) => {
         try {
-           // const response = await axios.put(`https://localhost:44311/api/services/app/Application/UpdateApplication`, application);
-            // if(response.data.result.success)
-            //     {
-            //         message.success('Application updated successfully');
-            //     }
+            console.log("application", application); 
+            
+           const response = await axios.put(`https://localhost:44311/api/services/app/Applications/UpdateApplication`, application);
+           console.log("reponse in provider ", response); 
+           message.success('Application updated successfully');
+           
             
         } catch (error) {
             message.error('An error occurred. Please try again later.');

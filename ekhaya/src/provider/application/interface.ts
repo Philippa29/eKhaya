@@ -5,6 +5,7 @@ export interface Application  {
     name:string; 
     surname: string; 
     applicationstatus: number;
+    property: string; 
     applicant : string;
     unittype : number;
     maritalstatus : number;

@@ -65,7 +65,7 @@ const LandingPage: React.FC = () => {
                                         </li>
                                     ))}
                                 </ul>
-                                {/* Attach the handleUnitsButtonClick function to the onClick event of the button */}
+                                
                                 <Button 
                                     style={{ backgroundColor: '#2596be', color: '#fff' }}
                                     onClick={() => handleUnitsButtonClick(property.propertyId)}>Units</Button>

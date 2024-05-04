@@ -25,10 +25,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
          if(response.data.result.accessToken) {
              localStorage.setItem('authToken', response.data.result.accessToken);
          }
-        message.success('Login successful');
+       
 
         //decode the token to find the role and then redirect based on that 
         const token = localStorage.getItem('authToken');
+        console.log(token); 
         if(token) {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -43,7 +44,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             push(`/${role}`);
 
         }
-
+        message.success('Login successful');
     
     } catch (error:any) {
         if (error.response) {

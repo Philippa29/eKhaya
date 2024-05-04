@@ -35,7 +35,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <link rel="icon" href="/logo.png" />
             <meta name="description" content={metadata.description} />
           </head>
-          <body style={{ margin: 0,  backgroundColor: "grey"}}>{children}</body>
+          <body style={{ margin: 0}}>{children}</body>
         </html>
       </AuthProvider>
     </ViewPropertyProvider>
