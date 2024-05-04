@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Layout, Image } from "antd";
 import Link from "next/link"; // Import Link from Next.js
-import { HomeOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import { HomeOutlined, EnvironmentOutlined, LogoutOutlined } from "@ant-design/icons";
 
 import { navstyles } from './style';
 import { MenuProps } from "antd/lib/menu"; // Import MenuProps from antd
@@ -18,9 +18,23 @@ interface MenuItem {
 const TopNavBar: React.FC = () => {
     const [current, setCurrent] = useState('home');
     const { styles } = navstyles();
-    const role = 'applicants'; // If you're testing, you can set the role directly
+    
     let items: MenuItem[] = [];
 
+
+    const token = localStorage.getItem('authToken');
+        if(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace('-', '+').replace('_', '/');
+            const decodedToken = JSON.parse(window.atob(base64));
+            const roleKey = `http://schemas.microsoft.com/ws/2008/06/identity/claims/role`;
+           
+            let role : string = decodedToken[roleKey];
+            role = role.toLowerCase();
+            localStorage.setItem('role', role);
+        }
+    
+        let role = localStorage.getItem('role'); 
     switch(role) {
         case 'applicants':
             items = [
@@ -36,10 +50,29 @@ const TopNavBar: React.FC = () => {
                     link: '/landingpage/nearby',
                     icon: <EnvironmentOutlined/>,
                 },
+                {
+                    key: 'signout',
+                    label: 'Sign Out',
+                    link: '/',
+                    icon: <LogoutOutlined/>,
+                },
             ];
             break;
         default:
-            items = [];
+            items = [
+                {
+                    key: 'home',
+                    label: 'Home',
+                    link: '/landingpage',
+                    icon: <HomeOutlined />,
+                },
+                {
+                    key: 'nearbyProperties',
+                    label: 'Nearby Properties',
+                    link: '/landingpage/nearby',
+                    icon: <EnvironmentOutlined/>,
+                },
+            ];
             break;
     }
 

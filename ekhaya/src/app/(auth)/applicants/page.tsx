@@ -1,11 +1,12 @@
-export default function Page() {
+'use client'
+import React from 'react';
+import ApplicationComponent  from '@/component/application/page'; // Adjusted import statement
+import WithAuth from '@/provider/auth/requireauth';
 
+const ApplicationForm: React.FC = () => {
     return (
-        <div>
-            <h1>Applicant</h1>
-            <h2>Page</h2>
-            <p>Applicant page content</p>
-        </div>
-    );
+        <ApplicationComponent/>
+    )
+};
 
-}
+export default ApplicationForm;

@@ -13,6 +13,7 @@ import { useState } from "react";
 import Register from "../register/page";
 import { RegisterProvider } from "@/provider/register";
 import { useAuthAction, useAuthState } from "@/provider/auth";
+import { useRouter } from "next/navigation";
 const Login = () => {
   const [form] = Form.useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -20,6 +21,21 @@ const Login = () => {
     userNameOrEmailAddress: "",
     password: "",
   });
+
+//   const handleLogin = () => {
+//     // Perform login logic here
+//     const router = useRouter();
+
+//     // After successful login, retrieve the previous page's URL from session storage
+//     const previousPage = sessionStorage.getItem("previousPage");
+//     if (previousPage) {
+//         // Navigate back to the previous page
+//         router.push(previousPage);
+//     } else {
+//         // If there's no previous page, navigate to the default page (e.g., homepage)
+//         router.push("/");
+//     }
+// };
 
 
 
@@ -101,6 +117,7 @@ const Login = () => {
               type="primary"
               htmlType="submit"
               className={styles.loginFormButton}
+              // onClick={handleLogin}
             >
               Sign in
             </Button>

@@ -19,7 +19,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
 
     console.log('credentials', credentials); 
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}api/TokenAuth/Authenticate`, credentials);
+        const response = await axios.post(`https://localhost:44311/api/TokenAuth/Authenticate`, credentials);
         // Save the token to localStorage
         console.log('response', response);
          if(response.data.result.accessToken) {
