@@ -4,6 +4,7 @@ import { ViewPropertyProvider } from "@/provider/property";
 import { AddressProvider } from "@/provider/addresses";
 import { ViewUnitsProvider } from "@/provider/viewunits";
 import { ApplicationProvider } from "@/provider/application";
+import { FileProvider } from "@/provider/file";
 
 export const metadata = {
   title: "eKhaya",
@@ -19,7 +20,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ApplicationProvider>
 
-    
+  <FileProvider>
     <ViewUnitsProvider>
     <AddressProvider>
     <ViewPropertyProvider>
@@ -41,6 +42,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     </ViewPropertyProvider>
     </AddressProvider>
     </ViewUnitsProvider>
+    </FileProvider>
     </ApplicationProvider>
   );
 };

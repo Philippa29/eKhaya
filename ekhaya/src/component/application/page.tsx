@@ -8,11 +8,14 @@ import {
 import { applicationStyles } from "./style";
 import WithAuth from "@/provider/auth/requireauth";
 import { Application } from "@/provider/application/interface";
-
+import { useFileActions , useFileState  } from "@/provider/file";
+import { RcFile } from "antd/es/upload";
 const { Option } = Select; // Correct import for Option component
 
 const ApplicationComponent: React.FC = () => {
   const [form] = Form.useForm();
+  const {createFile} = useFileActions(); 
+  const {file } = useFileState(); 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [localApplication, setLocalApplication] = useState<Application>(() => ({
     id: "",
@@ -38,6 +41,7 @@ const ApplicationComponent: React.FC = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const { application } = useApplicationState();
   const { createApplication, updateApplication } = useApplicationAction();
+  const [initialStateLoaded, setInitialStateLoaded] = useState<boolean>(false);
 
   const initialState: Application = {
     id: "",
@@ -75,6 +79,25 @@ const ApplicationComponent: React.FC = () => {
 
     fetchInitialData();
   }, []);
+  useEffect(() => {
+    if (application && !initialStateLoaded) {
+      form.setFieldsValue({
+        name: application.name,
+        surname: application.surname,
+        maritalstatus: application.maritalstatus,
+        communitytype: application.communitytype,
+        companyName: application.companyname,
+        companyaddress: application.companyaddress,
+        companycontactnumber: application.companycontactnumber,
+        occupation: application.occupation,
+        salary: application.salary,
+        monthsworked: application.monthsworked,
+        insolvent: application.insolvent,
+        evicted: application.evicted,
+      });
+      setInitialStateLoaded(true);
+    }
+  }, [application, form, initialStateLoaded]);
 
   const handleFormSubmit = async () => {
     try {
@@ -113,6 +136,63 @@ const ApplicationComponent: React.FC = () => {
       console.error('Validation failed:', error);
     }
   };
+
+  const createFormData = (ownerId: string, file: RcFile, documentType: number) => {
+    const formData = new FormData();
+    formData.append('ownerId', ownerId);
+    formData.append('file', file);
+    formData.append('documentType', documentType.toString()); // Convert to string if necessary
+    return formData;
+  };
+  
+  const handleIDUpload = async (file: RcFile | undefined) => {
+    console.log("file", file);
+    console.log("application", application);
+    
+    if (file && application) {
+      console.log("file", file); 
+      const formData = createFormData(application.id, file, 1);
+      const fileInFormData = formData.get("file");
+      
+      if (fileInFormData instanceof File) {
+        console.log("File in FormData:", fileInFormData);
+      } else {
+        console.log("File not found in FormData");
+      }
+  
+      try {
+        
+        //await createFile(formData);
+        console.log('Upload successful');
+      } catch (error) {
+        console.error('Error uploading ID document:', error);
+      }
+    }
+  };
+
+  const handlePayslipUpload = async (file: RcFile | undefined) => {
+    if (file && application) {
+      const formData = createFormData(application.id, file, 3); 
+      try {
+       // await createFile(formData);
+        console.log('Payslip upload successful');
+      } catch (error) {
+        console.error('Error uploading payslip:', error);
+      }
+    }
+  };
+
+  const handleBankStatementUpload = async (file: RcFile | undefined) => {
+    if (file && application) {
+      const formData = createFormData(application.id, file, 2); 
+      try {
+       // await createFile(formData);
+        console.log('Bank statement upload successful');
+      } catch (error) {
+        console.error('Error uploading bank statement:', error);
+      }
+    }
+  };
   
   
 
@@ -123,9 +203,7 @@ const ApplicationComponent: React.FC = () => {
 
   return (
     <div className={styles.formContainer}>
-      {/* <div className={styles.heading}>
-      <h1>Application</h1>
-    </div> */}
+     
       <Form
         form={form}
         onFinish={handleFormSubmit}
@@ -272,28 +350,30 @@ const ApplicationComponent: React.FC = () => {
         </div>
 
         <Form.Item>
-          <div className={styles.centeredFormItem}>
-            <Upload {...uploadProps}>
-              <Button icon={<UploadOutlined />}>Upload ID</Button>
-            </Upload>
-          </div>
-        </Form.Item>
+  <div className={styles.centeredFormItem}>
+  <Upload {...uploadProps} onChange={(info) => info.fileList.length > 0 && handleIDUpload(info.fileList[0].originFileObj)}> 
+  <Button icon={<UploadOutlined />}>Upload ID</Button>
+</Upload>
+  </div>
+</Form.Item>
 
-        <Form.Item>
-          <div className={styles.centeredFormItem}>
-            <Upload {...uploadProps}>
-              <Button icon={<UploadOutlined />}>Upload Pay Slip</Button>
-            </Upload>
-          </div>
-        </Form.Item>
 
-        <Form.Item>
-          <div className={styles.centeredFormItem}>
-            <Upload {...uploadProps}>
-              <Button icon={<UploadOutlined />}>Upload Bank Statement</Button>
-            </Upload>
-          </div>
-        </Form.Item>
+
+<Form.Item>
+  <div className={styles.centeredFormItem}>
+    <Upload {...uploadProps} onChange={(info) => info.fileList.length > 0 && handleBankStatementUpload(info.fileList[0].originFileObj)}> 
+      <Button icon={<UploadOutlined />}>Upload Bank Statement</Button>
+    </Upload>
+  </div>
+</Form.Item>
+
+<Form.Item>
+  <div className={styles.centeredFormItem}>
+    <Upload {...uploadProps} onChange={(info) => info.fileList.length > 0 && handlePayslipUpload(info.fileList[0].originFileObj)}> 
+      <Button icon={<UploadOutlined />}>Upload Pay Slip</Button>
+    </Upload>
+  </div>
+</Form.Item>
 
         <Form.Item>
           <div className={styles.centeredFormItem}>

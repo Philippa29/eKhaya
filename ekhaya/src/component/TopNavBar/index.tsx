@@ -1,25 +1,35 @@
 import React, { useState } from "react";
 import { Menu, Layout, Image } from "antd";
-import Link from "next/link"; // Import Link from Next.js
+import Link from "next/link";
 import { HomeOutlined, EnvironmentOutlined, LogoutOutlined } from "@ant-design/icons";
 
 import { navstyles } from './style';
-import { MenuProps } from "antd/lib/menu"; // Import MenuProps from antd
+import { MenuProps } from "antd/lib/menu"; 
+import { useRouter } from 'next/navigation';
 
 const { Header } = Layout;
 
 interface MenuItem {
     key: string;
     label: string;
-    link: string;
     icon: JSX.Element;
+    link: string; // Make link optional if onClick is present
+    onClick?: () => void;
 }
 
 const TopNavBar: React.FC = () => {
     const [current, setCurrent] = useState('home');
     const { styles } = navstyles();
+    const router = useRouter(); 
     
     let items: MenuItem[] = [];
+
+    const handleSignOut = () => {
+       
+        localStorage.clear();
+      
+        router.push('/landingpage');
+    };
 
 
     const token = localStorage.getItem('authToken');
@@ -35,47 +45,50 @@ const TopNavBar: React.FC = () => {
         }
     
         let role = localStorage.getItem('role'); 
-    switch(role) {
-        case 'applicants':
-            items = [
-                {
-                    key: 'home',
-                    label: 'Home',
-                    link: '/landingpage',
-                    icon: <HomeOutlined />,
-                },
-                {
-                    key: 'nearbyProperties',
-                    label: 'Nearby Properties',
-                    link: '/landingpage/nearby',
-                    icon: <EnvironmentOutlined/>,
-                },
-                {
-                    key: 'signout',
-                    label: 'Sign Out',
-                    link: '/',
-                    icon: <LogoutOutlined/>,
-                },
-            ];
-            break;
-        default:
-            items = [
-                {
-                    key: 'home',
-                    label: 'Home',
-                    link: '/landingpage',
-                    icon: <HomeOutlined />,
-                },
-                {
-                    key: 'nearbyProperties',
-                    label: 'Nearby Properties',
-                    link: '/landingpage/nearby',
-                    icon: <EnvironmentOutlined/>,
-                },
-            ];
-            break;
-    }
-
+     
+        
+        switch(role) {
+            case 'applicants':
+                items = [
+                    {
+                        key: 'home',
+                        label: 'Home',
+                        link: '/landingpage',
+                        icon: <HomeOutlined />,
+                    },
+                    {
+                        key: 'nearbyProperties',
+                        label: 'Nearby Properties',
+                        link: '/landingpage/nearby',
+                        icon: <EnvironmentOutlined/>,
+                    },
+                    {
+                        key: 'signout',
+                        label: 'Sign Out',
+                        onClick: handleSignOut, // Provide onClick handler for sign out
+                        link: '/landingpage',
+                        icon: <LogoutOutlined/>,
+                    },
+                ];
+                break;
+            default:
+                items = [
+                    {
+                        key: 'home',
+                        label: 'Home',
+                        link: '/landingpage',
+                        icon: <HomeOutlined />,
+                    },
+                    {
+                        key: 'nearbyProperties',
+                        label: 'Nearby Properties',
+                        link: '/landingpage/nearby',
+                        icon: <EnvironmentOutlined/>,
+                    },
+                ];
+                break;
+        }
+        
     const onClick: MenuProps['onClick'] = (e) => {
         setCurrent(e.key);
         console.log('Clicked:', e.key);

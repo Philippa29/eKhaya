@@ -5,4 +5,5 @@ export enum ActionTypes{
     GET_DOCUMENTATION = 'GET_DOCUMENTATION', 
 }
 
-export const 
+export const createdocumentationaction = createAction(ActionTypes.CREATE_DOCUMENTATION); 
+export const getdocumentationaction = createAction(ActionTypes.GET_DOCUMENTATION); 
