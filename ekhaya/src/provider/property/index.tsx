@@ -6,6 +6,7 @@ import { ActionTypes , getAllPropertiesAction, getAllPropertiesFailedAction,getA
 import { PropertyStateContext, propertyActionContext } from './context';
 import axios from 'axios';
 import { get } from 'http';
+import { Property, UpdateProperty } from './interface';
 interface ViewPropertyProps {
     children: React.ReactNode;
 }
@@ -32,12 +33,22 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
     } 
 
-    const createProperty  =  async () => {
+    const createProperty  =  async (property : Property) => {
 
         try {
             dispatch(getAllPropertiesLoadingAction());
             console.log(process.env.NEXT_PUBLIC_REG_URL); 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/CreateProperty`, property, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }
+            );
             console.log('response in provider ', response); 
             dispatch(getAllPropertiesAction(response.data.result));
         }
@@ -49,12 +60,22 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
     } 
 
 
-    const updateProperty =  async () => {
+    const updateProperty =  async (updateProperty : UpdateProperty) => {
 
         try {
             dispatch(getAllPropertiesLoadingAction());
             console.log(process.env.NEXT_PUBLIC_REG_URL); 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/UpdateProperty`, updateProperty,  
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }
+            );
             console.log('response in provider ', response); 
             dispatch(getAllPropertiesAction(response.data.result));
         }
@@ -65,12 +86,12 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
     } 
 
-    const deleteProperty =  async () => {
+    const deleteProperty =  async (id : string ) => {
 
         try {
             dispatch(getAllPropertiesLoadingAction());
             console.log(process.env.NEXT_PUBLIC_REG_URL); 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
             console.log('response in provider ', response); 
             dispatch(getAllPropertiesAction(response.data.result));
         }

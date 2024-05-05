@@ -3,6 +3,6 @@ import {Amenities, AmenitiesActions, IAmenitiesContext, initialState } from './i
 
 export const AmentitiesStateContext = createContext<IAmenitiesContext>(initialState); 
 export const AmenitiesActionsContext = createContext<AmenitiesActions>({
-    createAmenities: async () => {}, 
+    createAmenities: async ( Amenity : Amenities) => {}, 
     getallAmenities : async () => [] as Amenities[], 
 })

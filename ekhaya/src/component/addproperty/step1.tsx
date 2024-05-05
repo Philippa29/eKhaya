@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, Select, Button, Steps } from "antd";
+import { Modal, Form, Input, Select, Button, Steps, message } from "antd";
 import { FormStyles } from "./style";
 import { useAmenitiesState, useAmenitiesAction } from "@/provider/amenities";
 import { useAgentAction, useAgentState } from "@/provider/agents";
-
+import { useViewPropertyState, useViewPropertyAction } from "@/provider/property";
+import { Amenities } from "@/provider/amenities/interface";
 const { Step } = Steps;
 const { Option } = Select;
 
@@ -23,27 +24,41 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
 }) => {
   const { styles } = FormStyles();
   const [form] = Form.useForm();
-
+  const [amenityForm] = Form.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const { getAllAgents } = useAgentAction();
   const { agents } = useAgentState();
   const { getallAmenities, createAmenities } = useAmenitiesAction();
   const { amenities, amenity } = useAmenitiesState();
-
+  const {createProperty} = useViewPropertyAction(); 
+  const {property} = useViewPropertyState();
   useEffect(() => {
     getAllAgents();
     getallAmenities();
   }, []);
 
-  const handleOk = async () => {
+  const handleProperty = async () => {
     try {
       const values = await form.validateFields();
-      // You need to handle form submission here, perhaps by calling onNext
       console.log("Form values:", values);
-      form.resetFields();
-      setModalVisible(false); // Close the modal after form submission
+      
+      form.setFieldsValue(values); 
+      await createProperty(values); 
+      setModalVisible(false);
     } catch (error) {
       console.error("Validation failed:", error);
+    }
+  };
+
+
+  const handleAmenities = async () => {
+    try {
+      const values = await amenityForm.validateFields(); // Validate only amenities form fields
+      console.log("Amenities Form values:", values);
+      await createAmenities(values);
+      setModalVisible(false);
+    } catch (error) {
+      console.error("Amenities Validation failed:", error);
     }
   };
 
@@ -60,10 +75,10 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
       <Modal
         title="Add Amenity"
         open={modalVisible}
-        onOk={handleOk}
+        onOk={handleAmenities}
         onCancel={handleCancel}
       >
-        <Form form={form} layout="vertical" onFinish={handleOk}>
+       <Form form={amenityForm} layout="vertical" >
           <Form.Item
             name="amenityName"
             label="Amenity Name"
@@ -79,7 +94,7 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
         <Form
           form={form}
           layout="vertical"
-          onFinish={handleOk}
+          onFinish={handleProperty}
           className={styles.formContainer}
         >
           <Form.Item
