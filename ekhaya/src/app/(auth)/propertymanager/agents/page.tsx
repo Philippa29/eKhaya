@@ -1,39 +1,51 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect } from 'react'; // Import useEffect from React
 import { Table } from 'antd';
+import { useAgentState } from '@/provider/agents';
+import { useAgentAction } from '@/provider/agents';
 
 const Agents: React.FC = () => {
-    // Sample agent data (replace with actual data)
-    const [agentData, setAgentData] = useState<any[]>([
-        { id: 1, name: 'Agent 1', email: 'agent1@example.com', phone: '123-456-7890' },
-        { id: 2, name: 'Agent 2', email: 'agent2@example.com', phone: '987-654-3210' },
-        { id: 3, name: 'Agent 3', email: 'agent3@example.com', phone: '555-555-5555' },
-        { id: 4, name: 'Agent 4', email: 'agent4@example.com', phone: '777-777-7777' },
-    ]);
+    const { agents } = useAgentState(); 
+    const { getAllAgents } = useAgentAction(); 
 
     // Columns configuration for the table
     const columns = [
-        {
-            title: 'ID',
-            dataIndex: 'id',
-            key: 'id',
-        },
         {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
+            title: 'Surname',
+            dataIndex: 'surname',
+            key: 'surname',
         },
         {
-            title: 'Phone',
-            dataIndex: 'phone',
-            key: 'phone',
+            title: 'Email Address',
+            dataIndex: 'emailaddress',
+            key: 'emailaddress',
+        },
+        {
+            title: 'Phone Number',
+            dataIndex: 'phonenumber',
+            key: 'phonenumber',
         },
     ];
+
+    useEffect(() => {
+        // Call getAllAgents when component mounts
+        getAllAgents(); 
+        console.log(agents); 
+    }, []); // Empty dependency array to run the effect only once when component mounts
+
+    // Map out agent details for table dataSource
+    const agentData = agents.map(agent => ({
+        key: agent.id,
+        name: agent.name,
+        surname: agent.surname,
+        emailaddress: agent.emailAddress,
+        phonenumber: agent.phoneNumber,
+    }));
 
     return (
         <div>

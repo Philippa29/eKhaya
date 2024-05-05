@@ -6,6 +6,8 @@ import {
   FileOutlined,
   ToolOutlined,
   MoneyCollectOutlined, 
+  HeatMapOutlined,
+  PlusOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
@@ -41,8 +43,9 @@ const NavBar: React.FC = () => {
       case "propertymanager":
         return [
           { key: "1", label: <Link href="../propertymanager">Home</Link>, icon: <UserOutlined /> },
-          { key: "2", label: <Link href="../propertymanager">All Properties</Link>, icon: <FileOutlined /> },
-          { key: "3", label: <Link href="../propertymanager">Agents</Link>, icon: <FileOutlined /> },
+          { key: "2", label: <Link href="../propertymanager/property">All Properties</Link>, icon: <FileOutlined /> },
+          { key: "3", label: <Link href="../propertymanager/agents">Agents</Link>, icon: <FileOutlined /> },
+          { key: "4", label: <Link href="../propertymanager/addproperty">Add Property</Link>, icon: <PlusOutlined/> },
         ];
       case "agents":
         return [

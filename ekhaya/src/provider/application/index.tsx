@@ -21,7 +21,7 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
     const getAllApplications = async () => {
         try {
             
-            const response = await axios.get(`https://localhost:44311/api/services/app/Application/GetAllApplications`,
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Application/GetAllApplications`,
                 
             );
             dispatch(getAllApplicationAction(response.data.result));
@@ -37,7 +37,7 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
             
             //Make the HTTP POST request to create the application
             const response = await axios.post(
-                `https://localhost:44311/api/services/app/Applications/CreateApplication`,
+                `${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Applications/CreateApplication`,
                 application,
                 {
                     headers: {
@@ -66,7 +66,7 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
         try {
             console.log("application", application); 
             
-           const response = await axios.put(`https://localhost:44311/api/services/app/Applications/UpdateApplication`, application);
+           const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Applications/UpdateApplication`, application);
            console.log("reponse in provider ", response); 
            message.success('Application updated successfully');
            

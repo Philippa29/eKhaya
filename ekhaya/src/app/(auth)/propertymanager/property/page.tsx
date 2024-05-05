@@ -1,47 +1,59 @@
 'use client'
-import React, { useState } from 'react';
-import { Table } from 'antd';
+import React, { useEffect } from 'react';
+import { Table, Button, Modal, Image } from 'antd';
+import { useViewPropertyAction, useViewPropertyState } from '@/provider/property';
 
 const PropertyDashboard: React.FC = () => {
-    // Sample property data (replace with actual data)
-    const [propertyData, setPropertyData] = useState<any[]>([
-        { id: 1, name: 'Property 1', location: 'Location 1', price: 100000 },
-        { id: 2, name: 'Property 2', location: 'Location 2', price: 150000 },
-        { id: 3, name: 'Property 3', location: 'Location 3', price: 120000 },
-        { id: 4, name: 'Property 4', location: 'Location 4', price: 180000 },
-    ]);
+    const { viewproperty} = useViewPropertyState();
+    const { getAllProperties } = useViewPropertyAction();
+
+    useEffect(() => {
+        getAllProperties();
+    }, []);
 
     // Columns configuration for the table
     const columns = [
+        
         {
-            title: 'ID',
-            dataIndex: 'id',
-            key: 'id',
+            title: 'Property Name',
+            dataIndex: 'propertyName',
+            key: 'propertyname',
         },
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
         },
         {
-            title: 'Location',
-            dataIndex: 'location',
-            key: 'location',
+            title: 'Amenities',
+            dataIndex: 'amenities',
+            key: 'amenities',
+            render: (amenities: string[]) => amenities.join(', '), // Join array elements into a string
         },
         {
-            title: 'Price',
-            dataIndex: 'price',
-            key: 'price',
-            render: (price: number) => (
-                <span>${price.toLocaleString()}</span> // Format price as currency
+            title: 'Action',
+            key: 'base64Image',
+            render: (text: any, record: any) => (
+                <Button onClick={() => handleViewImage(record)}>View</Button>
             ),
         },
     ];
 
+    const handleViewImage = (property: any) => {
+        // Display modal with property image
+        console.log("property" , property); 
+        Modal.info({
+            title: property.propertyname,
+            content: (
+                <Image alt="" src={`data:image/png;base64,${property.base64Image}`}/>
+            ),
+        });
+    };
+
     return (
         <div>
             <h1>Property Dashboard</h1>
-            <Table dataSource={propertyData} columns={columns} />
+            <Table dataSource={viewproperty} columns={columns}  />
         </div>
     );
 };

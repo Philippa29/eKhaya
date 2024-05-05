@@ -1,10 +1,11 @@
 
 
 export interface AgentState {
+    id: string ; 
     name: string; 
     surname: string; 
-    emailaddress: string; 
-    phonenumber: string; 
+    emailAddress: string; 
+    phoneNumber: string; 
     password: string; 
     rolenames: string; 
 }
