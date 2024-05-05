@@ -32,10 +32,59 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
     } 
 
+    const createProperty  =  async () => {
+
+        try {
+            dispatch(getAllPropertiesLoadingAction());
+            console.log(process.env.NEXT_PUBLIC_REG_URL); 
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            console.log('response in provider ', response); 
+            dispatch(getAllPropertiesAction(response.data.result));
+        }
+        catch (error) {
+            dispatch(getAllPropertiesFailedAction());
+        }
+
+
+    } 
+
+
+    const updateProperty =  async () => {
+
+        try {
+            dispatch(getAllPropertiesLoadingAction());
+            console.log(process.env.NEXT_PUBLIC_REG_URL); 
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            console.log('response in provider ', response); 
+            dispatch(getAllPropertiesAction(response.data.result));
+        }
+        catch (error) {
+            dispatch(getAllPropertiesFailedAction());
+        }
+
+
+    } 
+
+    const deleteProperty =  async () => {
+
+        try {
+            dispatch(getAllPropertiesLoadingAction());
+            console.log(process.env.NEXT_PUBLIC_REG_URL); 
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            console.log('response in provider ', response); 
+            dispatch(getAllPropertiesAction(response.data.result));
+        }
+        catch (error) {
+            dispatch(getAllPropertiesFailedAction());
+        }
+
+
+    } 
+
 
     return (
         <PropertyStateContext.Provider value={state}>
-            <propertyActionContext.Provider value={{ getAllProperties }}>
+            <propertyActionContext.Provider value={{ getAllProperties, createProperty , deleteProperty , updateProperty }}>
                 {children}
             </propertyActionContext.Provider>
         </PropertyStateContext.Provider>

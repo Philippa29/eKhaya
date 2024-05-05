@@ -7,8 +7,8 @@ export const dashStyles = createStyles(({ css }) => ({
     flex-direction: column;
     position: relative;
     background: #e4e2e6;
-    
-    overflow-x: hidden;
+    height: 160vh; 
+    overflow-x: auto;
   `,
   logoContainer: css`
     width: 200px;

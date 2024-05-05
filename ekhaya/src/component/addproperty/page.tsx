@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Steps } from 'antd';
+import { Steps, Button } from 'antd';
 import AddAmenityStep from './step1';
+import FillUnitDetailsStep from './step2';
+import UploadStep from './step3';
 
 
 const { Step } = Steps;
@@ -22,18 +24,40 @@ const AddPropertyPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: '24px', marginRight: '10px' }}>
       <Steps current={currentStep}>
-        <Step title="Add Amenity" />
-        <Step title="Fill Property Details" />
-        <Step title="Select Amenities & Agents" />
+        <Step title="Property" />
+        <Step title="Units" />
+        <Step title="Upload" />
       </Steps>
       
-      <div>
-    {currentStep === 0 && (
+      <div style={{ marginTop: '24px' }}>
+
+      <>
+  {currentStep === 0 && (
+    <>
+    <Button type="primary" onClick={handleNextStep} style={{ marginRight: '8px' }}>Next</Button>
       <AddAmenityStep onNext={handleNextStep} visible={true} onClose={() => {}} />
-    )}
-  </div>
+      
+    </>
+  )}
+  {currentStep === 1 && (
+    <> 
+    <Button style={{ marginRight: '8px' }} onClick={handlePrevStep}>Previous</Button>
+      <Button type="primary" onClick={handleNextStep}>Next</Button> 
+      <FillUnitDetailsStep onNext={handleNextStep} visible={true} onClose={() => {}} />
+     
+    </>
+  )}
+  {currentStep === 2 && (
+    <>
+      <Button style={{ marginRight: '8px' }} onClick={handlePrevStep}>Previous</Button>
+      
+      <UploadStep onNext={handleNextStep} visible={true} onClose={() => {}}/>
+    </>
+  )}
+</>
+      </div>
     </div>
   );
 };

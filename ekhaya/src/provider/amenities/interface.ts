@@ -1,7 +1,7 @@
 export interface Amenities {
     id: string; 
     name: string ; 
-    amenitytype: number; 
+    type: number; 
 }
 
 export interface IAmenitiesContext {

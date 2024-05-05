@@ -1,28 +1,27 @@
 import {createContext } from 'react';
-import { ViewPropertyState , PropertyAction} from './interface';
+import { ViewPropertyState , PropertyAction, Property, UpdateProperty} from './interface';
 
 
 
 export interface IPropertyContext {
     viewproperty: ViewPropertyState[];
     viewproperty_loading: boolean;
-    
-    ///property : PropertyState;
+    property : Property | null; 
+    properties : Property[]; 
 } 
 
 export const initialState : IPropertyContext = {
     viewproperty: [],
     viewproperty_loading: false,
-    
-    // property: {
-    //     properties: [],
-    //     loading: false,
-    //     error: ""
-    // }
+    property: null, 
+    properties: [], 
 }
 
 
 export const PropertyStateContext = createContext<IPropertyContext>(initialState);
 export const propertyActionContext = createContext<PropertyAction>({
-    getAllProperties: () => {}
+    getAllProperties: () => {},
+    createProperty :  (property : Property) => {},
+    deleteProperty : (id : string ) => {},
+    updateProperty : (property : UpdateProperty ) => {},
 });
