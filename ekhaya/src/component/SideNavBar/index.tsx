@@ -38,7 +38,7 @@ const NavBar: React.FC = () => {
   }
 
   const getLinksForRole = (role: string): LinkType[] => {
-    role = "propertymanager"
+    
     switch (role) {
       case "propertymanager":
         return [

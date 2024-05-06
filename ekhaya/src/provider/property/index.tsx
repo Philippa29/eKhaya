@@ -2,11 +2,12 @@
 import React, { useContext , useReducer} from 'react';
 import { initialState } from './context';
 import { viewpropertyReducer } from './reducer';
-import { ActionTypes , getAllPropertiesAction, getAllPropertiesFailedAction,getAllPropertiesLoadingAction} from './action';
+import {  createPropertyAction, deletePropertyAction, getAllPropertiesAction, getAllPropertiesFailedAction,getAllPropertiesLoadingAction, updatePropertyAction} from './action';
 import { PropertyStateContext, propertyActionContext } from './context';
 import axios from 'axios';
 import { get } from 'http';
 import { Property, UpdateProperty } from './interface';
+import { message } from 'antd';
 interface ViewPropertyProps {
     children: React.ReactNode;
 }
@@ -21,8 +22,8 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
         try {
             dispatch(getAllPropertiesLoadingAction());
-            console.log(process.env.NEXT_PUBLIC_REG_URL); 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            
+            const response = await axios.get(`https://localhost:44311/api/services/app/PropertyAmenities/GetAllAvailableProperties`);
             console.log('response in provider ', response); 
             dispatch(getAllPropertiesAction(response.data.result));
         }
@@ -36,8 +37,8 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
     const createProperty  =  async (property : Property) => {
 
         try {
-            dispatch(getAllPropertiesLoadingAction());
-            console.log(process.env.NEXT_PUBLIC_REG_URL); 
+            
+            
             const response = await axios.post(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/CreateProperty`, property, 
             {
                 headers: {
@@ -50,10 +51,13 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
             }
             );
             console.log('response in provider ', response); 
-            dispatch(getAllPropertiesAction(response.data.result));
+            
+            dispatch(createPropertyAction(response.data.result));
+            
+            message.success("property successfully made!")
         }
         catch (error) {
-            dispatch(getAllPropertiesFailedAction());
+            message.error("property unsuccessfully!"); 
         }
 
 
@@ -77,7 +81,7 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
             }
             );
             console.log('response in provider ', response); 
-            dispatch(getAllPropertiesAction(response.data.result));
+            dispatch(updatePropertyAction(response.data.result));
         }
         catch (error) {
             dispatch(getAllPropertiesFailedAction());
@@ -89,11 +93,11 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
     const deleteProperty =  async (id : string ) => {
 
         try {
-            dispatch(getAllPropertiesLoadingAction());
+            
             console.log(process.env.NEXT_PUBLIC_REG_URL); 
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/PropertyAmenities/GetAllAvailableProperties`);
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/DeleteProperty?id=${id}`);
             console.log('response in provider ', response); 
-            dispatch(getAllPropertiesAction(response.data.result));
+            dispatch(deletePropertyAction(response.data.result));
         }
         catch (error) {
             dispatch(getAllPropertiesFailedAction());

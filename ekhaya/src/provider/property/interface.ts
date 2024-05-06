@@ -5,8 +5,8 @@ export interface ViewPropertyState {
 }
 
 export interface ViewProperty {
-    id: string; 
-    propertyname: string;
+    propertyId: string; 
+    propertyName: string;
     description: string;
     amenities: string[];
     base64image : string;

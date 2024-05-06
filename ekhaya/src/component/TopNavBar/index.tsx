@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Layout, Image } from "antd";
 import Link from "next/link";
-import { HomeOutlined, EnvironmentOutlined, LogoutOutlined } from "@ant-design/icons";
+import { HomeOutlined, EnvironmentOutlined, LogoutOutlined, LoginOutlined } from "@ant-design/icons";
 
 import { navstyles } from './style';
 import { MenuProps } from "antd/lib/menu"; 
@@ -29,6 +29,13 @@ const TopNavBar: React.FC = () => {
         localStorage.clear();
       
         router.push('/landingpage');
+    };
+
+    const handleSignin = () => {
+       
+        localStorage.clear();
+      
+        router.push('/login');
     };
 
 
@@ -65,7 +72,7 @@ const TopNavBar: React.FC = () => {
                     {
                         key: 'signout',
                         label: 'Sign Out',
-                        onClick: handleSignOut, // Provide onClick handler for sign out
+                        onClick: handleSignOut, 
                         link: '/landingpage',
                         icon: <LogoutOutlined/>,
                     },
@@ -84,6 +91,13 @@ const TopNavBar: React.FC = () => {
                         label: 'Nearby Properties',
                         link: '/landingpage/nearby',
                         icon: <EnvironmentOutlined/>,
+                    },
+                    {
+                        key: 'signin',
+                        label: 'Sign In',
+                        onClick: handleSignin, 
+                        link: '/login',
+                        icon: <LoginOutlined/>,
                     },
                 ];
                 break;

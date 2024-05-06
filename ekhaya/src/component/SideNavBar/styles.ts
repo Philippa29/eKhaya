@@ -1,14 +1,12 @@
 import { createStyles } from "antd-style";
-
-
 export const dashStyles = createStyles(({ css }) => ({
   container: css`
     display: flex;
     flex-direction: column;
     position: relative;
     background: #e4e2e6;
-    height: 160vh; 
     overflow-x: auto;
+    height: 170vh; /* Set the container height to fill the viewport */
   `,
   logoContainer: css`
     width: 200px;
@@ -23,16 +21,17 @@ export const dashStyles = createStyles(({ css }) => ({
     position: sticky;
     top: 0;
     left: 0;
-    height: 100vh; /* Set the height to 100vh to make it full height */
+    height: 100%; /* Set the sidebar height to fill the container */
     width: 200px;
     z-index: 99;
     overflow-y: auto; /* Enable vertical scrolling for the sidebar */
   `,
   layout: css`
     position: relative;
-    min-height: 90vh;
+    min-height: calc(100vh - 80px); /* Adjust height as needed */
     flex: 1;
     margin-left: 200px;
+    height: 100%;
   `,
   logo: css`
     max-width: 80%;
@@ -57,11 +56,3 @@ export const dashStyles = createStyles(({ css }) => ({
     }
   `,
 }));
-
-
-
-  
-  // Override Ant Design colors using CSS variables
- 
-  
-  

@@ -44,6 +44,7 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
       
       form.setFieldsValue(values); 
       await createProperty(values); 
+      console.log("property state: " , property)
       setModalVisible(false);
     } catch (error) {
       console.error("Validation failed:", error);
@@ -54,8 +55,9 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
   const handleAmenities = async () => {
     try {
       const values = await amenityForm.validateFields(); // Validate only amenities form fields
-      console.log("Amenities Form values:", values);
-      await createAmenities(values);
+      const amenityValues = { ...values, type: 2 }; // Add amenity type to the values
+      console.log("Amenities Form values:", amenityValues);
+      await createAmenities(amenityValues);
       setModalVisible(false);
     } catch (error) {
       console.error("Amenities Validation failed:", error);
@@ -80,7 +82,7 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
       >
        <Form form={amenityForm} layout="vertical" >
           <Form.Item
-            name="amenityName"
+            name="Name"
             label="Amenity Name"
             rules={[
               { required: true, message: "Please enter the amenity name" },
@@ -88,6 +90,7 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
           >
             <Input placeholder="Enter amenity name" />
           </Form.Item>
+          
         </Form>
       </Modal>
       <div className={styles.container}>

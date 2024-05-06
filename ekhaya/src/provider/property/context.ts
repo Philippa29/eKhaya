@@ -1,10 +1,10 @@
 import {createContext } from 'react';
-import { ViewPropertyState , PropertyAction, Property, UpdateProperty} from './interface';
+import { ViewProperty , PropertyAction, Property, UpdateProperty} from './interface';
 
 
 
 export interface IPropertyContext {
-    viewproperty: ViewPropertyState[];
+    viewproperty: ViewProperty[];
     viewproperty_loading: boolean;
     property : Property | null; 
     properties : Property[]; 
