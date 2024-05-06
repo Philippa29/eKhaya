@@ -29,9 +29,19 @@ const FileProvider : React.FC<FileProviderProps> = ({children}) => {
       }
     }
 
+    const getAllFile = async (id: string) => {
+        try{
+          const response = await axios.get(`https://localhost:44311/api/getalldocuments?id=${id}`);
+          console.log("File: ",response); 
+        }
+        catch{
+  
+        }
+      }
+
     return (
         <FileStateContext.Provider value={state}>
-            <FileActionContext.Provider value={{createFile}}>
+            <FileActionContext.Provider value={{createFile , getAllFile}}>
                 {children}
             </FileActionContext.Provider>
         </FileStateContext.Provider>

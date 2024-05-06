@@ -23,4 +23,5 @@ export const initialState : IFileContext = {
 export const FileStateContext = createContext<IFileContext>(initialState);
 export const FileActionContext = createContext<FileActions>({
     createFile: () => {}
+    GetAllFiles : (id : string) => {}
 });
