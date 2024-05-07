@@ -7,11 +7,12 @@ export const viewpropertyReducer = handleActions<IPropertyContext, any>(
     [ActionTypes.GET_ALL_PROPERTIES]: (state, action) => {
       if (action.payload) {
         console.log("action in all properties" , action.payload); 
+
         return {
           
           ...state,
-          properties: action.payload,
-          viewproperty: action.payload
+         
+          viewproperty: action.payload,
          
         };
       }

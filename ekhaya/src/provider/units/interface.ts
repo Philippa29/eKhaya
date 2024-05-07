@@ -48,9 +48,14 @@ export const initialState: IUnitsContext = {
     error: null,
 };
 
+export interface GetAllUnits {
+    
+}
+
 export interface UnitsActions {
     createUnits: (Unit : CreateUnit) => void; 
     deleteUnit: (id: string) => void; 
     getallUnits: () => void; 
+    getallUnitsAvailable: () => void; 
     updateUnits: (Unit : UpdateUnits) => void; 
 }

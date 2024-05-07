@@ -30,6 +30,9 @@ const LandingPage: React.FC = () => {
 
   const handleUnitsButtonClick = (propertyId: string) => {
     console.log("propertyId", propertyId);
+    localStorage.setItem("propertyId", "here"); 
+    let local = localStorage.getItem("propertyId"); 
+    console.log(local); 
     getAllUnitsPerProperty(propertyId);
     router.push(`/landingpage/units`);
   };

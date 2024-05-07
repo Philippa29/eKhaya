@@ -36,6 +36,12 @@ const GoogleMapComponent: React.FC = () => {
     lng: number;
   }>(null);
 
+  const customMarkerIcon = {
+    url: "/logo.png",
+    scaledSize: isLoaded ? new window.google.maps.Size(40, 40) : undefined, // Check if Google Maps API is loaded before accessing window.google.maps
+  };
+  
+
   useEffect(() => {
     // Get user's current location
     if (navigator.geolocation) {
@@ -75,6 +81,7 @@ const GoogleMapComponent: React.FC = () => {
           <Marker
             key={index}
             position={{ lat:address.latitude, lng: address.longitude}}
+            icon={customMarkerIcon}
             onClick={() => {
               setSelectedMarker({
                 lat: address.latitude,

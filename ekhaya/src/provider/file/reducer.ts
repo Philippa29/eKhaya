@@ -15,7 +15,7 @@ const fileReducer = handleActions<IFileContext, any>(
         [ActionTypes.GET_DOCUMENTATION]: (state, action) => {
             return {
                 ...state,
-                file: action.payload
+                files: action.payload
             }
            
         }

@@ -21,21 +21,23 @@ const Login = () => {
     userNameOrEmailAddress: "",
     password: "",
   });
+ const router = useRouter();
+ 
 
-//   const handleLogin = () => {
-//     // Perform login logic here
-//     const router = useRouter();
+  const handleLogin = () => {
+    // Perform login logic here
+   
 
-//     // After successful login, retrieve the previous page's URL from session storage
-//     const previousPage = sessionStorage.getItem("previousPage");
-//     if (previousPage) {
-//         // Navigate back to the previous page
-//         router.push(previousPage);
-//     } else {
-//         // If there's no previous page, navigate to the default page (e.g., homepage)
-//         router.push("/");
-//     }
-// };
+    // After successful login, retrieve the previous page's URL from session storage
+    const previousPage = sessionStorage.getItem("previousPage");
+    if (previousPage) {
+        // Navigate back to the previous page
+        router.push(previousPage);
+    } else {
+        // If there's no previous page, navigate to the default page (e.g., homepage)
+        router.push("/");
+    }
+};
 
 
 

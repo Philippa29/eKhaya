@@ -53,6 +53,8 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
             console.log('response in provider ', response); 
             
             dispatch(createPropertyAction(response.data.result));
+            localStorage.setItem('propertyid', response.data.result.id);
+            console.log('property id', response.data.result.id);
             
             message.success("property successfully made!")
         }

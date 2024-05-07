@@ -21,7 +21,16 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
     const getAllApplications = async () => {
         try {
             
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Application/GetAllApplications`,
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Applications/GetAllApplications`,
+                           {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache',
+                        'Expires': '0',
+                    }
+                }
                 
             );
             dispatch(getAllApplicationAction(response.data.result));
@@ -95,6 +104,26 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
         }
     }
 
+    const getApplicationForApplicant = async () => {
+        try {
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Applications/GetApplicationsForLoggedInPerson`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                        'Content-Type': 'application/json',
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache',
+                        'Expires': '0',
+                    }
+                }
+            );
+            dispatch(getAllApplicationAction(response.data.result));
+        } catch (error) {
+            message.error('An error occurred. Please try again later.');
+        }
+    }
+
     const getApplicationCount = async () => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Application/GetApplicationCount`);
@@ -106,7 +135,7 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
 
     return (
         <ApplicationStateContext.Provider value={state}>
-            <ApplicationActionContext.Provider value={{ getAllApplications, createApplication, updateApplication, deleteApplication, getApplicationCount, getApplication }}>
+            <ApplicationActionContext.Provider value={{getApplicationForApplicant,  getAllApplications, createApplication, updateApplication, deleteApplication, getApplicationCount, getApplication }}>
                 {children}
             </ApplicationActionContext.Provider>
         </ApplicationStateContext.Provider>

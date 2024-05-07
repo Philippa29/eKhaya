@@ -8,5 +8,6 @@ export const UnitsActionsContext = createContext<UnitsActions>({
     createUnits: async (Unit : CreateUnit) => {}, 
     deleteUnit: async (id) => {}, 
     getallUnits: async () => [], 
-    updateUnits: async (Unit : UpdateUnits) => {}, 
+    updateUnits: async (Unit : UpdateUnits) => {},
+    getallUnitsAvailable:  async () => [], 
 });

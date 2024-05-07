@@ -32,6 +32,27 @@ const UnitsProvider : React.FC<UnitsProviderProps> = ({children}) => {
 
     const getallUnits= async () => {
         try{
+
+            var local = localStorage.getItem("propertyId"); 
+            console.log("local" , local); 
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Units/GetAllUnits`);
+            if(!response.data.success)
+                {
+                    throw new Error('Unsuccessful'); 
+                }
+            dispatch(getAllUnitsAction(response.data.result)); 
+            message.success('successfully unit');  
+        }
+        catch{
+            message.error("Network Error!")
+        }
+    }
+
+    const getallUnitsAvailable= async () => {
+        try{
+
+            var local = localStorage.getItem("propertyId"); 
+            console.log("local" , local); 
             const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Units/GetAllUnits`);
             if(!response.data.success)
                 {
@@ -79,7 +100,7 @@ const UnitsProvider : React.FC<UnitsProviderProps> = ({children}) => {
 
     return (
         <UnitsStateContext.Provider value = {state}>
-            <UnitsActionsContext.Provider value = {{createUnits , getallUnits,deleteUnit , updateUnits }}>
+            <UnitsActionsContext.Provider value = {{getallUnitsAvailable,createUnits , getallUnits,deleteUnit , updateUnits }}>
                 {children}
             </UnitsActionsContext.Provider>
         </UnitsStateContext.Provider>

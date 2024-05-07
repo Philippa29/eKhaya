@@ -17,7 +17,7 @@ const RegisterProvider : React.FC<RegisterProviderProps> = ({children}) => {
     
     const registeruser = async (register: RegisterState) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}api/services/app/Applicant/CreateApplicant`, register);
+            const response = await axios.post(`https://localhost:44311/api/services/app/Applicant/CreateApplicant`, register);
             message.success('Register successful');
         } catch (error:any) {
             if (error.response) {
@@ -43,6 +43,9 @@ const RegisterProvider : React.FC<RegisterProviderProps> = ({children}) => {
             throw error; // Rethrow the error to propagate it further if needed
         }
     };
+
+
+    
     
     
     

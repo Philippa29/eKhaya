@@ -9,7 +9,8 @@ export const applicationReducer = handleActions<IApplicationContext, any>(
             if (action.payload) {
                 return {
                     ...state,
-                    applications: [...(state.applications || []), ...action.payload],
+                    applications: action.payload,
+                    getapplications: action.payload,
                     
                 };
             }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Layout, Image } from "antd";
 import Link from "next/link";
-import { HomeOutlined, EnvironmentOutlined, LogoutOutlined, LoginOutlined } from "@ant-design/icons";
+import { HomeOutlined, EnvironmentOutlined, LogoutOutlined, LoginOutlined, FileOutlined } from "@ant-design/icons";
 
 import { navstyles } from './style';
 import { MenuProps } from "antd/lib/menu"; 
@@ -25,16 +25,14 @@ const TopNavBar: React.FC = () => {
     let items: MenuItem[] = [];
 
     const handleSignOut = () => {
-       
-        localStorage.clear();
-      
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('role'); // Clear role as well, if needed
         router.push('/landingpage');
     };
 
-    const handleSignin = () => {
-       
-        localStorage.clear();
-      
+    const handleSignIn = () => {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('role'); // Clear role as well, if needed
         router.push('/login');
     };
 
@@ -70,6 +68,18 @@ const TopNavBar: React.FC = () => {
                         icon: <EnvironmentOutlined/>,
                     },
                     {
+                        key: 'Applications',
+                        label: ' Create Applications',
+                        link: '/applicants/applications',
+                        icon: <FileOutlined/>,
+                    },
+                    {
+                        key: 'Applications',
+                        label: ' Your Applications',
+                        link: '/applicants',
+                        icon: <FileOutlined/>,
+                    },
+                    {
                         key: 'signout',
                         label: 'Sign Out',
                         onClick: handleSignOut, 
@@ -95,7 +105,7 @@ const TopNavBar: React.FC = () => {
                     {
                         key: 'signin',
                         label: 'Sign In',
-                        onClick: handleSignin, 
+                        onClick: handleSignIn, 
                         link: '/login',
                         icon: <LoginOutlined/>,
                     },

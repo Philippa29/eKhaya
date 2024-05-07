@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import {Application, ApplicationAction } from './interface';
+import {Application, ApplicationAction, GetApplications } from './interface';
 
 
 
@@ -8,13 +8,14 @@ import {Application, ApplicationAction } from './interface';
 export interface IApplicationContext {
     application: Application | null ;
     applications?: Application[];
+    getapplications : GetApplications[]; 
 
 }
 
 export const initialState : IApplicationContext = {
     application: null, 
     applications: [],
-
+    getapplications: [], 
 }
 
 export const ApplicationStateContext = createContext<IApplicationContext>(initialState);
@@ -24,5 +25,6 @@ export const ApplicationActionContext = createContext<ApplicationAction>({
     createApplication: (application: Application) => {} ,
     updateApplication: (application: Application) => {},
     deleteApplication: (id: string) => {},
-    getApplicationCount: () => {}
+    getApplicationCount: () => {},
+    getApplicationForApplicant: () => {}, 
 });

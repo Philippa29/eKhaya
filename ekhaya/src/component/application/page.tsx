@@ -28,7 +28,7 @@ const ApplicationComponent: React.FC = () => {
     communitytype: 0,
     companyname: "",
     companyaddress: "",
-    property: localStorage.getItem("propertyId") || "",
+    property: localStorage.getItem("propertyId") || "it failed",
     companycontactnumber: "",
     occupation: "",
     salary: 0,
@@ -54,7 +54,7 @@ const ApplicationComponent: React.FC = () => {
     communitytype: 0,
     companyname: "",
     companyaddress: "",
-    property: localStorage.getItem("propertyId") || "",
+    property: localStorage.getItem("propertyId") || "4737D027-2296-4EA3-E61E-08DC6A048F9D",
     companycontactnumber: "",
     occupation: "",
     salary: 0,
@@ -162,7 +162,7 @@ const ApplicationComponent: React.FC = () => {
   
       try {
         
-        //await createFile(formData);
+        await createFile(formData);
         console.log('Upload successful');
       } catch (error) {
         console.error('Error uploading ID document:', error);
@@ -174,7 +174,7 @@ const ApplicationComponent: React.FC = () => {
     if (file && application) {
       const formData = createFormData(application.id, file, 3); 
       try {
-       // await createFile(formData);
+       await createFile(formData);
         console.log('Payslip upload successful');
       } catch (error) {
         console.error('Error uploading payslip:', error);
@@ -186,7 +186,7 @@ const ApplicationComponent: React.FC = () => {
     if (file && application) {
       const formData = createFormData(application.id, file, 2); 
       try {
-       // await createFile(formData);
+       await createFile(formData);
         console.log('Bank statement upload successful');
       } catch (error) {
         console.error('Error uploading bank statement:', error);

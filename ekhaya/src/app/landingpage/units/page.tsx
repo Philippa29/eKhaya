@@ -46,8 +46,8 @@ const Units: React.FC<{ propertyId: string }> = ({ propertyId }) => {
           <Image
             src={`data:image/png;base64,${image}`}
             alt={`Image ${index + 1}`}
-            width={300}
-            height={200}
+            width={500}
+            height={300}
           />
         </div>
       ))}
@@ -74,12 +74,13 @@ const Units: React.FC<{ propertyId: string }> = ({ propertyId }) => {
       </Row>
     </Card>
   );
-
+  const numColumns = 3;
+  const colSpan = 24 / numColumns;
   return (
     <div>
       <Row gutter={[16, 16]}>
         {getallunits?.map((unit: any) => (
-          <Col key={unit.propertyId} span={24}>
+          <Col key={unit.propertyId} span={colSpan}>
             {renderUnitCard(unit)}
           </Col>
         ))}

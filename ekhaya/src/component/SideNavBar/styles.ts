@@ -6,7 +6,8 @@ export const dashStyles = createStyles(({ css }) => ({
     position: relative;
     background: #e4e2e6;
     overflow-x: auto;
-    height: 170vh; /* Set the container height to fill the viewport */
+    width: 200px;
+    height: 90vh; /* Set the container height to fill the viewport */
   `,
   logoContainer: css`
     width: 200px;
@@ -17,7 +18,7 @@ export const dashStyles = createStyles(({ css }) => ({
     background: #e4e2e6;
   `,
   sidebar: css`
-    background-color: black;
+    background: #e4e2e6;
     position: sticky;
     top: 0;
     left: 0;
@@ -44,14 +45,14 @@ export const dashStyles = createStyles(({ css }) => ({
     background-color: purple;
   `,
   h1: css`
-    padding-bottom: 20px; 
+    padding-bottom: 20px;
   `,
   content: css`
     margin: 0 16px;
   `,
   menuItemHover: css`
     &:hover {
-      background-color: #2596be!important;
+      background-color: #2596be !important;
       color: #ffffff !important;
     }
   `,

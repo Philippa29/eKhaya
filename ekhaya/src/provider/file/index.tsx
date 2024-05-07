@@ -5,7 +5,7 @@ import { FileState, initialState } from './context'
 import fileReducer from './reducer'
 import axios from 'axios'
 import { FileActionContext , FileStateContext} from './context'
-import {createdocumentationaction } from './action'
+import {createdocumentationaction, getdocumentationaction } from './action'
 import { init } from 'next/dist/compiled/webpack/webpack'
 
 
@@ -17,7 +17,7 @@ const FileProvider : React.FC<FileProviderProps> = ({children}) => {
 
     const createFile = async (file: FormData) => {
       try{
-        const response = await axios.post('https://localhost:44311/api/documents', file, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_REG_URL}api/documents`, file, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -29,10 +29,11 @@ const FileProvider : React.FC<FileProviderProps> = ({children}) => {
       }
     }
 
-    const getAllFile = async (id: string) => {
+    const GetAllFiles = async (id: string) => {
         try{
-          const response = await axios.get(`https://localhost:44311/api/getalldocuments?id=${id}`);
-          console.log("File: ",response); 
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/getalldocuments?id=${id}`);
+          console.log(response); 
+           dispatch(getdocumentationaction(response.data.result)); 
         }
         catch{
   
@@ -41,7 +42,7 @@ const FileProvider : React.FC<FileProviderProps> = ({children}) => {
 
     return (
         <FileStateContext.Provider value={state}>
-            <FileActionContext.Provider value={{createFile , getAllFile}}>
+            <FileActionContext.Provider value={{createFile , GetAllFiles}}>
                 {children}
             </FileActionContext.Provider>
         </FileStateContext.Provider>

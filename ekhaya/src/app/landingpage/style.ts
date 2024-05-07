@@ -4,6 +4,7 @@ import { createStyles } from "antd-style";
 export const landingPageStyle = createStyles(({ css }) => ({
   body : css`
   background-color: #e4e2e6;
+   
   `,
     card: css`
     background-color: #e4e2e6;
