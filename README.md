@@ -112,6 +112,7 @@ This is an example .env file for configuring environment variables in your proje
 2. Navigate to your project's root directory.
 
 3. Run the script using the following command:
+[flow.pdf](https://github.com/Philippa29/eKhaya/files/15247392/flow.pdf)
 
 bash generate-env.sh
 
