@@ -10,4 +10,5 @@ export const UnitsActionsContext = createContext<UnitsActions>({
     getallUnits: async () => [], 
     updateUnits: async (Unit : UpdateUnits) => {},
     getallUnitsAvailable:  async () => [], 
+    getallUnitsAgent: async () => [],
 });

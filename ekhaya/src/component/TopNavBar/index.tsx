@@ -25,12 +25,13 @@ const TopNavBar: React.FC = () => {
     let items: MenuItem[] = [];
 
     const handleSignOut = () => {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('role'); // Clear role as well, if needed
+        
+        localStorage.clear(); 
         router.push('/landingpage');
     };
 
     const handleSignIn = () => {
+        
         localStorage.removeItem('authToken');
         localStorage.removeItem('role'); // Clear role as well, if needed
         router.push('/login');
@@ -115,7 +116,13 @@ const TopNavBar: React.FC = () => {
         
     const onClick: MenuProps['onClick'] = (e) => {
         setCurrent(e.key);
-        console.log('Clicked:', e.key);
+       
+        if(e.key === 'signout') {
+            handleSignOut();
+        }
+        if(e.key === 'signin') {
+            handleSignIn();
+        }
     };
 
     return (

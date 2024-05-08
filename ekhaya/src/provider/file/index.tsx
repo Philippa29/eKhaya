@@ -22,7 +22,7 @@ const FileProvider : React.FC<FileProviderProps> = ({children}) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        console.log("File: ",response); 
+      
       }
       catch{
 
@@ -32,7 +32,7 @@ const FileProvider : React.FC<FileProviderProps> = ({children}) => {
     const GetAllFiles = async (id: string) => {
         try{
           const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/getalldocuments?id=${id}`);
-          console.log(response); 
+       
            dispatch(getdocumentationaction(response.data.result)); 
         }
         catch{

@@ -18,10 +18,7 @@ const AddPropertyPage: React.FC = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = (values: any) => {
-    // Handle form submission
-    console.log('Form values:', values);
-  };
+ 
 
   return (
     <div style={{ marginTop: '24px', marginRight: '10px' }}>

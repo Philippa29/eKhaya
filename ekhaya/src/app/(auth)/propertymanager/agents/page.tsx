@@ -35,7 +35,7 @@ const Agents: React.FC = () => {
     useEffect(() => {
         // Call getAllAgents when component mounts
         getAllAgents(); 
-        console.log(agents); 
+        
     }, []); // Empty dependency array to run the effect only once when component mounts
 
     // Map out agent details for table dataSource

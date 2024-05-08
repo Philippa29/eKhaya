@@ -79,18 +79,6 @@ const NavBar: React.FC = () => {
             icon: <FileOutlined />,
           },
           {
-            key: "3",
-            label: (
-              <Link href="../agents/maintenancerequest">Maintainances</Link>
-            ),
-            icon: <ToolOutlined />,
-          },
-          {
-            key: "4",
-            label: <Link href="../agents/residents">Residence</Link>,
-            icon: <TeamOutlined />,
-          },
-          {
             key: "5",
             label: <Link href="../agents/units">Units</Link>,
             icon: <HomeOutlined/>,
@@ -99,19 +87,9 @@ const NavBar: React.FC = () => {
       case "residents":
         return [
           {
-            key: "2",
-            label: <Link href="../residents/maintenancerequest">Requests</Link>,
-            icon: <FileOutlined />,
-          },
-          {
-            key: "3",
+            key: "1",
             label: <Link href="../residents/lease">Lease</Link>,
             icon: <ToolOutlined />,
-          },
-          {
-            key: "4",
-            label: <Link href="../residents/payment">Payment</Link>,
-            icon: <MoneyCollectOutlined />,
           },
         ];
       default:

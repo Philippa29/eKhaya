@@ -25,7 +25,7 @@ const Login = () => {
  
 
   const handleLogin = () => {
-    // Perform login logic here
+   
    
 
     // After successful login, retrieve the previous page's URL from session storage
@@ -53,7 +53,7 @@ const Login = () => {
   };
 
   const onFinish = async () => {
-    console.log("credentials: ", credentials);
+    
 
     try{
       await login(credentials);

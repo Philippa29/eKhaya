@@ -62,6 +62,7 @@ const ApplicationTable: React.FC = () => {
     }, []);
 
     return (
+      
         <Table dataSource={getapplications} columns={columns} />
     );
 };

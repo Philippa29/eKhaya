@@ -5,7 +5,7 @@ import { IAddressContext, initialState } from "./context";
 export const addressReducer = handleActions<IAddressContext, any>(
     {
         [ActionTypes.GET_ALL_ADDRESSES]: (state, action) => {
-            console.log('action.payload', action.payload);
+           
             if (action.payload) {
                 return {
                     ...state,

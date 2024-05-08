@@ -34,11 +34,23 @@ export interface UpdateUnits {
     availability : boolean; 
 }
 
+export interface AgentUnits {
+    id: string;
+    size: number ; 
+    type: number ;  
+    unitnumber : string ; 
+    level : number; 
+    availability : boolean; 
+    propertyid : string; 
+
+}
+
 export interface IUnitsContext {
     unit: Unit | null; 
     units: Unit[];
     loading: boolean;
     error: string | null; 
+    agentunits: AgentUnits[];
 }
 
 export const initialState: IUnitsContext = {
@@ -46,6 +58,7 @@ export const initialState: IUnitsContext = {
     units: [],
     loading: false,
     error: null,
+    agentunits: [],
 };
 
 export interface GetAllUnits {
@@ -57,5 +70,6 @@ export interface UnitsActions {
     deleteUnit: (id: string) => void; 
     getallUnits: () => void; 
     getallUnitsAvailable: () => void; 
-    updateUnits: (Unit : UpdateUnits) => void; 
+    updateUnits: (Unit : UpdateUnits) => void;
+    getallUnitsAgent: () => void; 
 }

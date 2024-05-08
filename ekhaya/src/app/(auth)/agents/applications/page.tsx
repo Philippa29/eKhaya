@@ -1,11 +1,9 @@
 'use client'
-import { useEffect, useState } from 'react';
-import { Table, Button , Modal} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, Button, Modal, Dropdown, Menu } from 'antd';
 import { useApplicationAction, useApplicationState } from '@/provider/application';
-import { GetApplications } from '@/provider/application/interface';
-import { useFileActions , useFileState } from '@/provider/file';
-// Sample data for demonstration
-
+import { GetApplications, Application} from '@/provider/application/interface';
+import { useFileActions, useFileState } from '@/provider/file';
 
 enum ApplicationStatus {
   Pending = 1,
@@ -14,26 +12,52 @@ enum ApplicationStatus {
   Rejected = 4,
 }
 
+enum MaritalStatus 
+{
+    Single = 1,
+    Married = 2,
+    Divorced = 3,
+    Widowed = 4,
+}
+
+enum CommunityType 
+{
+    InCommunity = 1,
+    OutCommunity = 2,
+    None = 3,
+}
+
 const ApplicationTable = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const {getapplications} = useApplicationState(); 
-  const {getAllApplications} = useApplicationAction(); 
-  const { GetAllFiles} = useFileActions(); 
-  const {files} = useFileState(); 
-  
+  const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus>(ApplicationStatus.Pending);
+  const { getapplications } = useApplicationState();
+  const { getAllApplications, updateApplication} = useApplicationAction();
+  const { GetAllFiles } = useFileActions();
+  const [fileUrls, setFileUrls] = useState<string[]>([]);
+  const { files } = useFileState();
+  const [updatedApplication, setUpdatedApplication] = useState<Application | null>(null);
+
   const [selectedApplication, setSelectedApplication] = useState<GetApplications | null>(null);
 
-  useEffect (()=> {
-    getAllApplications(); 
-  }, []
+  useEffect(() => {
+    getAllApplications();
+  },[]);
 
-  )
+  const handleRenderBase64 = async (id: string) => {
+    await GetAllFiles(id);
+    
+    const relevantFiles = files.filter(file => {
+      return file.fileName.includes('ID') || file.fileName.includes('Payslip') || file.fileName.includes('BankStatement');
+    });
 
-  const handleRenderBase64 = (base64: string, fileType: string) => {
-    // Create a data URL
-    const dataUrl = `data:${fileType};base64,${base64}`;
-    // Open the data URL in a new tab
-    window.open(dataUrl, '_blank');
+    const urls: string[] = [];
+    relevantFiles.forEach(file => {
+      const dataUrl = `data:${file.fileType};base64,${file.base64}`;
+      urls.push(dataUrl);
+    });
+
+    setFileUrls(urls);
+    setModalVisible(true);
   };
 
   const handleShowDetails = (application: GetApplications) => {
@@ -41,8 +65,80 @@ const ApplicationTable = () => {
     setModalVisible(true);
   };
 
-  const columns = [
+  const handleStatusChange = async (record: GetApplications, status: ApplicationStatus) => {
+    console.log('record', record);
+    console.log('status', status);
     
+    // Construct the request body with all the details of the selected application
+    const updatedApp : Application= {
+      id: record.id,
+      name: record.name,
+      surname: record.surname,
+      applicant: record.applicant,
+      property: record.property,
+      applicationstatus: status,
+      maritalstatus: record.maritalStatus,
+      communitytype: record.communityType,
+      companyname: record.companyName,
+      companyaddress: record.companyAddress,
+      companycontactnumber: record.companyContactNumber,
+      occupation: record.occupation,
+      salary: record.salary,
+      monthsworked: record.monthsWorked,
+      createddate: record.createddate,
+      insolvent: record.insolvent,
+      evicted: record.evicted,
+      unittype: record.unitType,
+      applicationtype: record.applicationtype,
+    };
+    
+    setUpdatedApplication(updatedApp);
+    console.log('updatedApp', updatedApp);
+    await updateApplication(updatedApp);
+  };
+
+  const renderMaritalStatus = (status: MaritalStatus) => {
+    switch (status) {
+      case MaritalStatus.Single:
+        return 'Single';
+      case MaritalStatus.Married:
+        return 'Married';
+      case MaritalStatus.Divorced:
+        return 'Divorced';
+      case MaritalStatus.Widowed:
+        return 'Widowed';
+      default:
+        return '';
+    }
+  };
+
+  const renderCommunityType = (type: CommunityType) => {
+    switch (type) {
+      case CommunityType.InCommunity:
+        return 'In Community';
+      case CommunityType.OutCommunity:
+        return 'Out Community';
+      case CommunityType.None:
+        return 'None';
+      default:
+        return '';
+    }
+  };
+
+  const renderUnitType = (unitType: number) => {
+    switch (unitType) {
+      case 1:
+        return 'Bachelor';
+      case 2:
+        return 'One Bedroom';
+      case 3:
+        return 'Two Bedroom';
+      default:
+        return '';
+    }
+  };
+
+  const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
@@ -92,14 +188,27 @@ const ApplicationTable = () => {
       key: 'actions',
       render: (text: string, record: GetApplications) => (
         <div>
-          <Button onClick={() => handleShowDetails(record)}>View Details</Button>
-          
-          {/* <Button onClick={() => handleRenderBase64(selectedFile.base64, selectedFile.fileType)}>Open Document</Button> */}
+          <Button style={{ color: '#0071BC' }} onClick={() => handleShowDetails(record)}>View Details</Button>
+
+          <Dropdown
+            overlay={
+              <Menu onClick={({ key }) => handleStatusChange(record , parseInt(key))}>
+                <Menu.Item key={ApplicationStatus.Pending}>Pending</Menu.Item>
+                <Menu.Item key={ApplicationStatus.UnderReview}>Under Review</Menu.Item>
+                <Menu.Item key={ApplicationStatus.Approved}>Approved</Menu.Item>
+                <Menu.Item key={ApplicationStatus.Rejected}>Rejected</Menu.Item>
+              </Menu>
+            }
+            trigger={['click']}
+          >
+            <Button style={{ color: '#0071BC' }}>Change Status</Button>
+          </Dropdown>
+
+          <Button style={{ color: '#0071BC' }} onClick={() => handleRenderBase64(record.id)}>Open Document</Button>
 
         </div>
       ),
     },
-    // Add more columns as needed
   ];
 
   return (
@@ -110,40 +219,46 @@ const ApplicationTable = () => {
         rowKey="id"
         pagination={false}
       />
-      <Button> Create Lease </Button>
-      <Modal
+
+<Modal
         title="Application Details"
-        open={modalVisible}
+        open={!!(modalVisible && (fileUrls.length > 0 || selectedApplication))}
         onCancel={() => setModalVisible(false)}
         footer={[
-          <Button key="close" onClick={() => setModalVisible(false)}>Close</Button>
+          <Button
+            style={{ color: '#0071BC' }}
+            key="close"
+            onClick={() => setModalVisible(false)}
+          >
+            Close
+          </Button>
         ]}
       >
         {selectedApplication && (
-    <div>
-      <p> state : {} </p>
-      <p>Name: {selectedApplication.name}</p>
-      <p>Surname: {selectedApplication.surname}</p>
-      <p>Applicant Email: {selectedApplication.applicantemail}</p>
-      <p>Application Status: {selectedApplication.applicationStatus}</p>
-      <p>Application Type: {selectedApplication.applicationtype}</p>
-      <p>Community Type: {selectedApplication.communitytype}</p>
-      <p>Company Address: {selectedApplication.companyaddress}</p>
-      <p>Company Contact Number: {selectedApplication.companycontactnumber}</p>
-      <p>Company Name: {selectedApplication.companyname}</p>
-      <p>Evicted: {selectedApplication.evicted ? 'Yes' : 'No'}</p>
-      <p>Insolvent: {selectedApplication.insolvent ? 'Yes' : 'No'}</p>
-      <p>Marital Status: {selectedApplication.maritalstatus}</p>
-      <p>Months Worked: {selectedApplication.monthsworked}</p>
-      <p>Occupation: {selectedApplication.occupation}</p>
-      <p>Property Name: {selectedApplication.propertyname}</p>
-      <p>Salary: {selectedApplication.salary}</p>
-      <p>Unit Type: {selectedApplication.unittype}</p>
-    </div>
-  )}
+          <div>
+
+            <p>Name: {selectedApplication.name}</p>
+            <p>Surname: {selectedApplication.surname}</p>
+            <p>Unity Type: {renderUnitType(selectedApplication.unitType)}</p>
+            <p>Marital Status: {renderMaritalStatus(selectedApplication.maritalStatus)}</p>
+            <p>Community Type: {renderCommunityType(selectedApplication.communityType)}</p>
+            <p>Company Name: {selectedApplication.companyName}</p>
+            <p>Company Address: {selectedApplication.companyAddress}</p>
+            <p>Company Contact Number: {selectedApplication.companyContactNumber}</p>
+            <p>Occupation: {selectedApplication.occupation}</p>
+            <p>Salary: {selectedApplication.salary}</p>
+
+          </div>
+        )}
+        {fileUrls.map((url, index) => (
+          <div key={index}>
+            <iframe src={url} style={{ width: '100%', height: '500px' }} />
+          </div>
+        ))}
       </Modal>
     </div>
   );
 };
 
 export default ApplicationTable;
+

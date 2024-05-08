@@ -53,20 +53,20 @@ const FillUnitDetailsStep: React.FC<FillUnitDetailsStepProps> = ({
     
         let property = localStorage.getItem('propertyid'); 
         const updatedValues = { ...values, propertyid: property, availability : true,};
-        console.log(updatedValues); 
+        
         await createUnits(updatedValues); 
       
     
     
   
-    //console.log("Unit Details:", values);
+   
   };
   
   const handleAmenities = async () => {
     try {
       const values = await amenityForm.validateFields(); // Validate only amenities form fields
       const amenityValues = { ...values, type: 2 }; // Add amenity type to the values
-      console.log("Amenities Form values:", amenityValues);
+      
       await createAmenities(amenityValues);
       setModalVisible(false);
     } catch (error) {

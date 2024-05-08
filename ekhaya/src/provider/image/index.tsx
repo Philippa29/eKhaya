@@ -22,7 +22,7 @@ const ImageProvider : React.FC<FileProviderProps> = ({children}) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        console.log("File: ",response); 
+  
       }
       catch{
 

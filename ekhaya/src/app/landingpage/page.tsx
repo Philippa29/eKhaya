@@ -21,7 +21,7 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     const response = getAllProperties();
-    console.log("response in front", viewproperty.length);
+    
   }, []);
 
   const amenityIcons: { [key: string]: JSX.Element } = {
@@ -29,10 +29,10 @@ const LandingPage: React.FC = () => {
   };
 
   const handleUnitsButtonClick = (propertyId: string) => {
-    console.log("propertyId", propertyId);
+    
     localStorage.setItem("propertyId", "here"); 
     let local = localStorage.getItem("propertyId"); 
-    console.log(local); 
+    
     getAllUnitsPerProperty(propertyId);
     router.push(`/landingpage/units`);
   };
@@ -40,9 +40,9 @@ const LandingPage: React.FC = () => {
   if (viewproperty_loading) {
     return <Spin size="large" />;
   }
-  console.log("response in front", viewproperty);
+  
   return (
-    <Layout style={{ minHeight: "80vh", backgroundColor: "#e4e2e6;" }}>
+    <Layout style={{ minHeight: "91.5vh", backgroundColor: "#e4e2e6;" }}>
       <Content style={{ padding: "60px", textAlign: "center" }}>
         {viewproperty.map((property: any, index: number) => (
           <Card key={index} className={styles.card}>

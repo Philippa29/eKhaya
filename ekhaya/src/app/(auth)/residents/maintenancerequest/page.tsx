@@ -6,7 +6,7 @@ const AgentsDashboard: React.FC = () => {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
-        console.log('Form values:', values);
+        
         // Handle form submission, e.g., send data to backend
     };
 

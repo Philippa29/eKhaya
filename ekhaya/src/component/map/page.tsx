@@ -68,7 +68,7 @@ const GoogleMapComponent: React.FC = () => {
     null
   );
 
-  console.log('addresses in front', addresses);
+  
 
   return isLoaded ? (
     <GoogleMap

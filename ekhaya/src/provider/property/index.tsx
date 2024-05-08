@@ -24,7 +24,7 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
             dispatch(getAllPropertiesLoadingAction());
             
             const response = await axios.get(`https://localhost:44311/api/services/app/PropertyAmenities/GetAllAvailableProperties`);
-            console.log('response in provider ', response); 
+         
             dispatch(getAllPropertiesAction(response.data.result));
         }
         catch (error) {
@@ -50,11 +50,11 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
                 }
             }
             );
-            console.log('response in provider ', response); 
+       
             
             dispatch(createPropertyAction(response.data.result));
             localStorage.setItem('propertyid', response.data.result.id);
-            console.log('property id', response.data.result.id);
+           
             
             message.success("property successfully made!")
         }
@@ -70,7 +70,7 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
         try {
             dispatch(getAllPropertiesLoadingAction());
-            console.log(process.env.NEXT_PUBLIC_REG_URL); 
+           
             const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/UpdateProperty`, updateProperty,  
             {
                 headers: {
@@ -82,7 +82,7 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
                 }
             }
             );
-            console.log('response in provider ', response); 
+           
             dispatch(updatePropertyAction(response.data.result));
         }
         catch (error) {
@@ -96,9 +96,9 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
         try {
             
-            console.log(process.env.NEXT_PUBLIC_REG_URL); 
+           
             const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/DeleteProperty?id=${id}`);
-            console.log('response in provider ', response); 
+            
             dispatch(deletePropertyAction(response.data.result));
         }
         catch (error) {

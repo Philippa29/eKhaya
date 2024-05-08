@@ -40,11 +40,11 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
   const handleProperty = async () => {
     try {
       const values = await form.validateFields();
-      console.log("Form values:", values);
+      
       
       form.setFieldsValue(values); 
       await createProperty(values); 
-      console.log("property state: " , property)
+      
       setModalVisible(false);
     } catch (error) {
       console.error("Validation failed:", error);
@@ -56,7 +56,7 @@ const AddAmenityStep: React.FC<AddAmenityStepProps> = ({
     try {
       const values = await amenityForm.validateFields(); // Validate only amenities form fields
       const amenityValues = { ...values, type: 2 }; // Add amenity type to the values
-      console.log("Amenities Form values:", amenityValues);
+    
       await createAmenities(amenityValues);
       setModalVisible(false);
     } catch (error) {

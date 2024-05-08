@@ -3,7 +3,7 @@ import React from 'react';
 import { applicationReducer } from './reducer';
 import { initialState } from './context';
 import { message } from 'antd';
-import { getAllApplicationAction ,createApplicationAction , deleteApplicationAction , getApplicationByApplicantAction , countApplicationAction } from './action';
+import { getAllApplicationAction ,createApplicationAction , deleteApplicationAction , getApplicationByApplicantAction , countApplicationAction, updateApplicationAction } from './action';
 import { ApplicationStateContext, ApplicationActionContext } from './context';
 import axios from 'axios';
 import { useReducer } from 'react';
@@ -41,8 +41,7 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
     }
     const createApplication = async (application: Omit<Application, 'id'>) => {
         try {
-            console.log(localStorage.getItem('authToken')); 
-            console.log("application in provider before call: " , application); 
+           
             
             //Make the HTTP POST request to create the application
             const response = await axios.post(
@@ -59,7 +58,7 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
                 }
             );
 
-             console.log(response.data.result); 
+            
             dispatch(createApplicationAction (response.data.result)); 
             message.success('Application created successfully');
             // Handle the response as needed
@@ -73,17 +72,21 @@ const ApplicationProvider: React.FC<ApplicationProps> = ({ children }) => {
 
     const updateApplication = async (application: Application ) => {
         try {
-            console.log("application", application); 
-            
-           const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Applications/UpdateApplication`, application);
-           console.log("reponse in provider ", response); 
-           message.success('Application updated successfully');
            
+            
+            const response = await axios.put(
+                `${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Applications/UpdateApplication`, 
+                application
+            );
+            
+            message.success('Application updated successfully');
+            dispatch(updateApplicationAction(response.data.result));
             
         } catch (error) {
             message.error('An error occurred. Please try again later.');
         }
     }
+    
 
     const deleteApplication = async (id: string) => {
         try {

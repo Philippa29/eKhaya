@@ -20,7 +20,7 @@ const AmenitiesProvider : React.FC<AmenitiesProviderProps> = ({children}) => {
 
     const createAmenities = async (amenity : Amenities) => {
         try{
-            console.log("amenity in provider before call", amenity); 
+            
             const response = await axios.post(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Amenities/CreateAmenities`, amenity);
             if(!response.data.success)
                 {

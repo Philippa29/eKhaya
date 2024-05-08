@@ -32,7 +32,7 @@ const UploadStep: React.FC<UploadStepProps> = ({
 
   useEffect(() => {
     getAllProperties();
-    console.log(viewproperty);
+  
   }, []);
 
   const onFinish = async () => {

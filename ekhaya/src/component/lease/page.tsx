@@ -30,7 +30,7 @@ const LeaseComponent: React.FC = () => {
   // Function to handle uploading new lease
   const handleNewLeaseUpload = () => {
     // Logic to save new lease to database
-    console.log("Saving new lease to database...");
+   
     // Set state to indicate it's not updating
     setIsUpdating(false);
   };
@@ -38,7 +38,7 @@ const LeaseComponent: React.FC = () => {
   // Function to handle updating existing lease
   const handleUpdateLeaseUpload = () => {
     // Logic to update existing lease in database
-    console.log("Updating existing lease in database...");
+   
     // Set state to indicate it's updating
     setIsUpdating(true);
   };

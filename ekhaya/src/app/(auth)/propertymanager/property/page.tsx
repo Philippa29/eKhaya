@@ -41,7 +41,7 @@ const PropertyDashboard: React.FC = () => {
 
     const handleViewImage = (property: any) => {
         // Display modal with property image
-        console.log("property" , property); 
+        
         Modal.info({
             title: property.propertyname,
             content: (

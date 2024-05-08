@@ -69,9 +69,9 @@ const ApplicationComponent: React.FC = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        console.log(localStorage.getItem("propertyId")); // Check if the value is correct
+       
         const response = await createApplication(initialState);
-        console.log("after the call ", response);
+       
       } catch (error) {
         console.error("Error fetching initial data:", error);
       }
@@ -128,7 +128,7 @@ const ApplicationComponent: React.FC = () => {
         }
       
   
-      console.log(localApplication);
+      
   
       // Update application on the server
       await updateApplication(localApplication);
@@ -146,24 +146,18 @@ const ApplicationComponent: React.FC = () => {
   };
   
   const handleIDUpload = async (file: RcFile | undefined) => {
-    console.log("file", file);
-    console.log("application", application);
+
     
     if (file && application) {
-      console.log("file", file); 
+     
       const formData = createFormData(application.id, file, 1);
       const fileInFormData = formData.get("file");
       
-      if (fileInFormData instanceof File) {
-        console.log("File in FormData:", fileInFormData);
-      } else {
-        console.log("File not found in FormData");
-      }
-  
+     
       try {
         
         await createFile(formData);
-        console.log('Upload successful');
+       
       } catch (error) {
         console.error('Error uploading ID document:', error);
       }
@@ -175,7 +169,7 @@ const ApplicationComponent: React.FC = () => {
       const formData = createFormData(application.id, file, 3); 
       try {
        await createFile(formData);
-        console.log('Payslip upload successful');
+        
       } catch (error) {
         console.error('Error uploading payslip:', error);
       }
@@ -187,7 +181,7 @@ const ApplicationComponent: React.FC = () => {
       const formData = createFormData(application.id, file, 2); 
       try {
        await createFile(formData);
-        console.log('Bank statement upload successful');
+        
       } catch (error) {
         console.error('Error uploading bank statement:', error);
       }

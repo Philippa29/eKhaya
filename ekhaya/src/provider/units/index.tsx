@@ -16,7 +16,7 @@ const UnitsProvider : React.FC<UnitsProviderProps> = ({children}) => {
 
     const createUnits = async (unit : CreateUnit) => {
         try{
-            console.log("unit in provider before call", unit); 
+           
             const response = await axios.post(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Units/CreateUnits`, unit);
             if(!response.data.success)
                 {
@@ -34,7 +34,7 @@ const UnitsProvider : React.FC<UnitsProviderProps> = ({children}) => {
         try{
 
             var local = localStorage.getItem("propertyId"); 
-            console.log("local" , local); 
+          
             const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Units/GetAllUnits`);
             if(!response.data.success)
                 {
@@ -52,8 +52,26 @@ const UnitsProvider : React.FC<UnitsProviderProps> = ({children}) => {
         try{
 
             var local = localStorage.getItem("propertyId"); 
-            console.log("local" , local); 
+           
             const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Units/GetAllUnits`);
+            if(!response.data.success)
+                {
+                    throw new Error('Unsuccessful'); 
+                }
+            dispatch(getAllUnitsAction(response.data.result)); 
+            message.success('successfully unit');  
+        }
+        catch{
+            message.error("Network Error!")
+        }
+    }
+
+    const getallUnitsAgent= async () => {
+        try{
+
+            var local = localStorage.getItem("propertyId"); 
+          
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Units/GetAllAvailableUnitsForAgent`);
             if(!response.data.success)
                 {
                     throw new Error('Unsuccessful'); 
@@ -68,7 +86,7 @@ const UnitsProvider : React.FC<UnitsProviderProps> = ({children}) => {
 
     const updateUnits = async (unit : UpdateUnits) => {
         try{
-            console.log("unit in provider before call", unit); 
+             
             const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Units/UpdateUnit`, unit);
             if(!response.data.success)
                 {
@@ -84,7 +102,7 @@ const UnitsProvider : React.FC<UnitsProviderProps> = ({children}) => {
 
     const deleteUnit = async (id: string) => {
         try{
-            console.log("unit in provider before call", id); 
+           
             const response = await axios.delete(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Units/DeleteUnit`, {data: {id}});
             if(!response.data.success)
                 {
@@ -100,7 +118,7 @@ const UnitsProvider : React.FC<UnitsProviderProps> = ({children}) => {
 
     return (
         <UnitsStateContext.Provider value = {state}>
-            <UnitsActionsContext.Provider value = {{getallUnitsAvailable,createUnits , getallUnits,deleteUnit , updateUnits }}>
+            <UnitsActionsContext.Provider value = {{getallUnitsAgent, getallUnitsAvailable,createUnits , getallUnits,deleteUnit , updateUnits }}>
                 {children}
             </UnitsActionsContext.Provider>
         </UnitsStateContext.Provider>
