@@ -99,4 +99,27 @@ To start the development server, run the following command:
 
 npm run dev
 
+This is an example .env file for configuring environment variables in your project.
+
+## Table of Contents
+
+- [Instructions](#instructions)
+
+## Instructions
+
+1. Copy the content below.
+
+2. Create a new file named `.env` in the root directory of your project.
+
+3. Paste the copied content into the `.env` file.
+
+4. Replace the placeholder values with your actual environment variable values.
+
+5. Save the `.env` file.
+
+## Example .env File
+
+```plaintext
+NEXT_PUBLIC_REG_URL="https://localhost:44311/"
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=""
 
