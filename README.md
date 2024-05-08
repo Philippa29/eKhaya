@@ -107,19 +107,14 @@ This is an example .env file for configuring environment variables in your proje
 
 ## Instructions
 
-1. Copy the content below.
+1. Open a terminal.
 
-2. Create a new file named `.env` in the root directory of your project.
+2. Navigate to your project's root directory.
 
-3. Paste the copied content into the `.env` file.
+3. Run the script using the following command:
 
-4. Replace the placeholder values with your actual environment variable values.
+bash generate-env.sh
 
-5. Save the `.env` file.
 
-## Example .env File
 
-```plaintext
-NEXT_PUBLIC_REG_URL="https://localhost:44311/"
-NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=""
 
