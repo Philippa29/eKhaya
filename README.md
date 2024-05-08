@@ -90,4 +90,13 @@ Before you begin, ensure you have the following installed on your local machine:
    ```bash
    git clone <repository-url>
 
+   Configuration
+Create a .env file in the root directory of the project.
+Copy the contents from .env.example and replace placeholder values with your actual configuration values.
+
+Running the Application
+To start the development server, run the following command:
+
+npm run dev
+
 
