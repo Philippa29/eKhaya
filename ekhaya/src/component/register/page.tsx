@@ -28,7 +28,7 @@ const Register: React.FC<RegisterProps> = ({ onClose, open }) => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const onFinish = async () => {
-    console.log("credentials: ", registerState);
+   
     if (registerState.password !== confirmPassword) {
       message.error("Passwords do not match");
       return;

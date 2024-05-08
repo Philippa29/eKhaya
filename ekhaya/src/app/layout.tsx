@@ -3,6 +3,12 @@ import dynamic from "next/dynamic";
 import { ViewPropertyProvider } from "@/provider/property";
 import { AddressProvider } from "@/provider/addresses";
 import { ViewUnitsProvider } from "@/provider/viewunits";
+import { ApplicationProvider } from "@/provider/application";
+import { FileProvider } from "@/provider/file";
+import { AgentProvider } from "@/provider/agents";
+import { AmenitiesProvider } from "@/provider/amenities";
+import { UnitsProvider } from "@/provider/units";
+import { ImageProvider } from "@/provider/image";
 
 export const metadata = {
   title: "eKhaya",
@@ -16,6 +22,12 @@ const DynamicRootLayout = dynamic(() => import("./layout"), { ssr: false });
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   //const AuthenticatedComponent = RequireAuth(DynamicRootLayout);
   return (
+    <ImageProvider>
+    <UnitsProvider>
+    <AmenitiesProvider>
+    <AgentProvider>
+    <ApplicationProvider>
+    <FileProvider>
     <ViewUnitsProvider>
     <AddressProvider>
     <ViewPropertyProvider>
@@ -37,6 +49,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     </ViewPropertyProvider>
     </AddressProvider>
     </ViewUnitsProvider>
+    </FileProvider>
+    </ApplicationProvider>
+    </AgentProvider>
+    </AmenitiesProvider>
+    </UnitsProvider>
+    </ImageProvider>
   );
 };
 

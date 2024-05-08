@@ -18,9 +18,8 @@ const ViewUnitsProvider : React.FC<ViewUnitsProps> = ({children}) => {
     const getAllUnitsPerProperty = async (id : string ) => {
         try{
             localStorage.clear();
-            const response = await axios.get(`https://localhost:44311/api/services/app/UnitsAmenities/GetUnitDetailsForProperty?propertyId=${id}`);
-            localStorage.setItem('propertyId', id); 
-            console.log('response in provider', response); 
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/UnitsAmenities/GetUnitDetailsForProperty?propertyId=${id}`);
+           
             if(response.data.success)
             {
 
