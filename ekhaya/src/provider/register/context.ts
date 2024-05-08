@@ -23,6 +23,6 @@ export const initialState: IRegisterContext = {
 
 export const RegisterStateContext = createContext<IRegisterContext>(initialState);
 export const RegisterActionContext = createContext<RegisterActions>({
-    registeruser : (register : RegisterState) => {},
+    registeruser : (register : RegisterState) => {}
     
 });

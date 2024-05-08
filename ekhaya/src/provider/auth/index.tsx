@@ -17,18 +17,19 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
 
    const login = async (credentials: Credentials) => {
 
-    console.log('credentials', credentials); 
+   
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}api/TokenAuth/Authenticate`, credentials);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_REG_URL}api/TokenAuth/Authenticate`, credentials);
         // Save the token to localStorage
-        console.log('response', response);
+       
          if(response.data.result.accessToken) {
              localStorage.setItem('authToken', response.data.result.accessToken);
          }
-        message.success('Login successful');
+       
 
         //decode the token to find the role and then redirect based on that 
         const token = localStorage.getItem('authToken');
+        
         if(token) {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -43,7 +44,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
             push(`/${role}`);
 
         }
-
+        message.success('Login successful');
     
     } catch (error:any) {
         if (error.response) {

@@ -1,9 +1,12 @@
 "use client";
 import React from "react";
 import LandingPage from "./landingpage/page";
+import { useRouter } from "next/navigation";
 
 const App: React.FC = () => {
-  return <LandingPage></LandingPage>;
+  const router = useRouter(); 
+  router.push("/landingpage"); 
+  return <></>;
 };
 
 export default App;

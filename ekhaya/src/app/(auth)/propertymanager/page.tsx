@@ -1,11 +1,19 @@
-export default function Page() {
+'use client'
+import React, { useState, useEffect, use, Suspense } from 'react';
+import {useRouter} from 'next/navigation';
 
-    return (
-        <div>
-            <h1>Property man</h1>
-            <h2>Page</h2>
-            <p>Applicant page content</p>
-        </div>
-    );
 
-}
+const PropertyDashboard: React.FC = () => {
+    const router = useRouter();
+
+    router.push('/propertymanager/property');
+    return(
+           
+              <></>
+           
+            // </RequireAuth> */}
+      
+    ); 
+};
+
+export default PropertyDashboard;

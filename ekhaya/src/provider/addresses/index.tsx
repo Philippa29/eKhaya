@@ -17,7 +17,7 @@ const AddressProvider: React.FC<AddressProviderProps> = ({ children }) => {
     const getAllAddresses = async () => {
         try {
             dispatch(getAllAddressesLoadingAction());
-            const response = await axios.get(`https://localhost:44311/api/services/app/Address/GetAllAddresses`);
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Address/GetAllAddresses`);
             dispatch(getAllAddressesAction(response.data.result));
         } catch (error) {
             dispatch(getAllAddressesFailedAction());

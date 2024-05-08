@@ -2,10 +2,12 @@
 import React, { useContext , useReducer} from 'react';
 import { initialState } from './context';
 import { viewpropertyReducer } from './reducer';
-import { ActionTypes , getAllPropertiesAction, getAllPropertiesFailedAction,getAllPropertiesLoadingAction} from './action';
+import {  createPropertyAction, deletePropertyAction, getAllPropertiesAction, getAllPropertiesFailedAction,getAllPropertiesLoadingAction, updatePropertyAction} from './action';
 import { PropertyStateContext, propertyActionContext } from './context';
 import axios from 'axios';
 import { get } from 'http';
+import { Property, UpdateProperty } from './interface';
+import { message } from 'antd';
 interface ViewPropertyProps {
     children: React.ReactNode;
 }
@@ -20,9 +22,84 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
         try {
             dispatch(getAllPropertiesLoadingAction());
+            
             const response = await axios.get(`https://localhost:44311/api/services/app/PropertyAmenities/GetAllAvailableProperties`);
-            console.log('response in provider ', response); 
+         
             dispatch(getAllPropertiesAction(response.data.result));
+        }
+        catch (error) {
+            dispatch(getAllPropertiesFailedAction());
+        }
+
+
+    } 
+
+    const createProperty  =  async (property : Property) => {
+
+        try {
+            
+            
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/CreateProperty`, property, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }
+            );
+       
+            
+            dispatch(createPropertyAction(response.data.result));
+            localStorage.setItem('propertyid', response.data.result.id);
+           
+            
+            message.success("property successfully made!")
+        }
+        catch (error) {
+            message.error("property unsuccessfully!"); 
+        }
+
+
+    } 
+
+
+    const updateProperty =  async (updateProperty : UpdateProperty) => {
+
+        try {
+            dispatch(getAllPropertiesLoadingAction());
+           
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/UpdateProperty`, updateProperty,  
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache',
+                    'Expires': '0',
+                }
+            }
+            );
+           
+            dispatch(updatePropertyAction(response.data.result));
+        }
+        catch (error) {
+            dispatch(getAllPropertiesFailedAction());
+        }
+
+
+    } 
+
+    const deleteProperty =  async (id : string ) => {
+
+        try {
+            
+           
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_REG_URL}api/services/app/Property/DeleteProperty?id=${id}`);
+            
+            dispatch(deletePropertyAction(response.data.result));
         }
         catch (error) {
             dispatch(getAllPropertiesFailedAction());
@@ -34,7 +111,7 @@ const ViewPropertyProvider: React.FC<ViewPropertyProps> = ({ children }) => {
 
     return (
         <PropertyStateContext.Provider value={state}>
-            <propertyActionContext.Provider value={{ getAllProperties }}>
+            <propertyActionContext.Provider value={{ getAllProperties, createProperty , deleteProperty , updateProperty }}>
                 {children}
             </propertyActionContext.Provider>
         </PropertyStateContext.Provider>
