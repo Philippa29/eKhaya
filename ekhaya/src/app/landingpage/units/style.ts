@@ -19,4 +19,10 @@ export const unitsPageStyle = createStyles(({ css }) => ({
     justify-content: center;
     height: 100%;
   `,
+  centeredContainer: css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
+
 }));

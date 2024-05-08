@@ -24,9 +24,7 @@ const LandingPage: React.FC = () => {
     
   }, []);
 
-  const amenityIcons: { [key: string]: JSX.Element } = {
-    Gym: <FontAwesomeIcon icon={faDumbbell} />,
-  };
+ 
 
   const handleUnitsButtonClick = (propertyId: string) => {
     
@@ -44,41 +42,37 @@ const LandingPage: React.FC = () => {
   return (
     <Layout style={{ minHeight: "91.5vh", backgroundColor: "#e4e2e6;" }}>
       <Content style={{ padding: "60px", textAlign: "center" }}>
-        {viewproperty.map((property: any, index: number) => (
-          <Card key={index} className={styles.card}>
-            <div className={styles.cardContent}>
-              <div className={styles.imageContainer}>
-                <Image
-                  alt=""
-                  src={`data:image/png;base64,${property.base64Image}`}
-                />
-              </div>
-              <div className={styles.textContainer}>
-                <h2>{property.propertyName}</h2>
-                <p>{property.description}</p>
-                <ul>
-                  {property.amenities.map(
-                    (amenity: string, amenityIndex: number) => (
-                      <li key={amenityIndex}>
-                        <Space>
-                          {amenityIcons[amenity]}
-                          {amenity}
-                        </Space>
-                      </li>
-                    )
-                  )}
-                </ul>
-
-                <Button
-                  style={{ backgroundColor: "#2596be", color: "#fff" }}
-                  onClick={() => handleUnitsButtonClick(property.propertyId)}
-                >
-                  Units
-                </Button>
-              </div>
-            </div>
-          </Card>
-        ))}
+      {viewproperty.map((property: any, index: number) => (
+  <Card key={index} className={styles.card}>
+    <div className={styles.cardContent}>
+      <div className={styles.imageContainer}>
+        <Image
+          alt=""
+          src={`data:image/png;base64,${property.base64Image}`}
+        />
+      </div>
+      <div className={styles.textContainer}>
+        <h2>{property.propertyName}</h2>
+        <p>{property.description}</p>
+        <ul style={{ marginLeft: 0, paddingLeft: '1.5em' }}>
+          {property.amenities.map(
+            (amenity: string, amenityIndex: number) => (
+              <li key={amenityIndex} style={{ marginBottom: '0.5em' }}>
+                <Space>{amenity}</Space>
+              </li>
+            )
+          )}
+        </ul>
+        <Button
+          style={{ backgroundColor: '#2596be', color: '#fff' }}
+          onClick={() => handleUnitsButtonClick(property.propertyId)}
+        >
+          Units
+        </Button>
+      </div>
+    </div>
+  </Card>
+))}
       </Content>
     </Layout>
   );

@@ -55,16 +55,15 @@ const Units: React.FC<{ propertyId: string }> = ({ propertyId }) => {
   );
 
   const renderUnitCard = (unit: any) => (
+    <div className={styles.centeredContainer}>
     <Card className={styles.card}>
-      {" "}
       {/* Use the card style */}
       <Row gutter={[16, 16]}>
         <Col span={24}>{renderImages(unit.base64Images)}</Col>
         <Col span={24}>
           <div className={styles.unitDetails}>
-            {" "}
             {/* Use the unitDetails style */}
-            <p>Unit Type: {UnitType[unit.unitType]}</p>
+            <p> {UnitType[unit.unitType]}</p>
             <p>Amenities: {unit.amenities.join(", ")}</p>
             <Button type="primary" onClick={() => handleApplyClick(unit)}>
               Apply
@@ -73,6 +72,7 @@ const Units: React.FC<{ propertyId: string }> = ({ propertyId }) => {
         </Col>
       </Row>
     </Card>
+  </div>
   );
   const numColumns = 3;
   const colSpan = 24 / numColumns;

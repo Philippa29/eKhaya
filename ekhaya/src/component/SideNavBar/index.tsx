@@ -78,11 +78,6 @@ const NavBar: React.FC = () => {
             label: <Link href="../agents/applications">Applications</Link>,
             icon: <FileOutlined />,
           },
-          {
-            key: "5",
-            label: <Link href="../agents/units">Units</Link>,
-            icon: <HomeOutlined/>,
-          },
         ];
       case "residents":
         return [
